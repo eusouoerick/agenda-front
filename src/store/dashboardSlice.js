@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const asideMenuPages = [
   // Todos os icons são do Google Fonts
-  { name: "Home", href: "/dashboard/home", icon: "home" },
+  { name: "Home", href: "/dashboard", icon: "home" },
   { name: "Calendar", href: "/dashboard/schedules", icon: "calendar_month" },
   // { name: "Services", href: "/dashboard/agenda", icon: "receipt_long" },
   { name: "Services", href: "/dashboard/services", icon: "description" },

@@ -3,10 +3,11 @@ import { useRouter } from "next/router";
 // redux
 import { useDispatch } from "react-redux";
 import { setWindowBlur } from "../../store/settingsSlice";
-import { setUser } from "../../store/userSlice";
+// import { setUser } from "../../store/userSlice";
+import { getUser } from "../../store/userSlice";
 // graphql
 import { useMutation, useLazyQuery } from "@apollo/client";
-import { CREATE_USER, LOGIN, GET_USER } from "../../graphql/schemas/users";
+import { CREATE_USER, LOGIN} from "../../graphql/schemas/users";
 
 import style from "./loginModal.module.css";
 
@@ -17,7 +18,6 @@ const LoginModal = ({ loginLayout }) => {
   const [loading, setLoading] = useState(false);
   const [createUserGql] = useMutation(CREATE_USER, null, { fetchPolicy: "no-cache" });
   const [loginGql] = useLazyQuery(LOGIN, null, { fetchPolicy: "no-cache" });
-  const [getUserGql] = useLazyQuery(GET_USER);
 
   const [layout, setLayout] = useState(loginLayout); // true = login, false = signup
   const [form, setForm] = useState({
@@ -47,8 +47,7 @@ const LoginModal = ({ loginLayout }) => {
         token = data.createUser;
       }
       localStorage.setItem("token", token);
-      const { data } = await getUserGql();
-      dispatch(setUser(data.getUser));
+      await dispatch(getUser());
       setLoading(() => false);
       dispatch(setWindowBlur());
       router.push("/dashboard");
@@ -79,6 +78,7 @@ const LoginModal = ({ loginLayout }) => {
                   autoComplete='off'
                   value={form.name}
                   onChange={handleChange}
+                  autoFocus={true}
                 />
               </div>
             )}
@@ -92,6 +92,7 @@ const LoginModal = ({ loginLayout }) => {
                 autoComplete='off'
                 value={form.contact}
                 onChange={handleChange}
+                autoFocus={true}
               />
             </div>
             <div className={style["input-area"]}>

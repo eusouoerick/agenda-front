@@ -1,4 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { GET_USER } from "../graphql/schemas/users";
+import { print } from "graphql";
+import graphqlAPI from "../graphql/graphqlApi";
+
+export const getUser = createAsyncThunk("user/getUser", async () => {
+  const { getUser } = await graphqlAPI(print(GET_USER));
+  return getUser;
+});
 
 const userSlice = createSlice({
   name: "user",
@@ -8,10 +16,11 @@ const userSlice = createSlice({
     name: "",
     contact: "",
   },
-  reducers: {
-    setUser: (state, action) => action.payload,
+  extraReducers: {
+    [getUser.fulfilled]: (state, action) => action.payload,
+    [getUser.rejected]: (state, action) => console.error(action.error),
   },
 });
 
-export const { setUser } = userSlice.actions;
+// export const { setUser } = userSlice.actions;
 export default userSlice.reducer;

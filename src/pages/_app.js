@@ -6,6 +6,7 @@ import classNames from "classnames";
 import "../styles/globals.css";
 
 import AsideMenu from "../components/Dashboard/AsideMenu";
+import MainDashboard from "../components/Dashboard/Main";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -15,8 +16,16 @@ function MyApp({ Component, pageProps }) {
           style={{ width: "100vw", height: "100vh" }}
           className={classNames({ "dashboard-container": !Component.getLayout })}
         >
-          {!Component.getLayout && <AsideMenu />}
-          <Component {...pageProps} />
+          {Component.getLayout ? (
+            <Component {...pageProps} />
+          ) : (
+            <>
+              <AsideMenu />
+              <MainDashboard style={{ width: "100%" }}>
+                <Component {...pageProps} />
+              </MainDashboard>
+            </>
+          )}
         </div>
       </Provider>
     </ApolloProvider>
