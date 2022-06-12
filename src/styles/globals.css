@@ -1,21 +1,31 @@
 :root {
+  /* Rroxo */
   /* --color-primary: hsl(250, 70%, 50%); 
   --color-primary-light: hsl(250, 70%, 70%);
   --color-primary-dark: hsl(250, 70%, 30%); 
   --text-color-primary: hsl(250deg 100% 73%);
   --dashboard-aside-background: hsl(250deg 70% 50% / 20%); */
 
+  /* Verde */
   /* --color-primary: hsl(120, 70%, 50%);
   --color-primary-light: hsl(120, 70%, 70%);
   --color-primary-dark: hsl(120, 70%, 30%);
   --text-color-primary: hsl(120deg 100% 73%);
   --dashboard-aside-background: hsl(120deg 70% 50% / 20%); */
 
+  /* Rosa */
   --color-primary: hsl(337, 70%, 50%);
   --color-primary-light: hsl(337, 70%, 70%);
   --color-primary-dark: hsl(337, 70%, 30%);
   --text-color-primary: hsl(337deg 100% 64%);
   --dashboard-aside-background: hsl(337deg 70% 50% / 20%);
+
+  --color-completed: hsla(158, 85%, 34%, 1);
+  --completed-background: hsla(160, 100%, 95%, 1);
+  --color-pending: hsla(27, 97%, 53%, 1);
+  --pending-background: hsla(30, 100%, 96%, 1);
+  --color-cancelled: hsla(0, 100%, 50%, 1);
+  --cancelled-background: hsla(356, 100%, 98%, 1);
 }
 
 
@@ -24,6 +34,7 @@
   font-family: "Inter", BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   box-sizing: border-box;
+  
 }
 
 html {

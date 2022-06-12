@@ -3,11 +3,10 @@ import { useRouter } from "next/router";
 // redux
 import { useDispatch } from "react-redux";
 import { setWindowBlur } from "../../store/settingsSlice";
-// import { setUser } from "../../store/userSlice";
 import { getUser } from "../../store/userSlice";
 // graphql
 import { useMutation, useLazyQuery } from "@apollo/client";
-import { CREATE_USER, LOGIN} from "../../graphql/schemas/users";
+import { CREATE_USER, LOGIN } from "../../graphql/schemas/users";
 
 import style from "./loginModal.module.css";
 

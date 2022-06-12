@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../../store/userSlice";
 
 import Header from "../Header";
+import AsideMenu from "../AsideMenu";
 
 const Main = ({ children }) => {
   const router = useRouter();
@@ -22,12 +23,25 @@ const Main = ({ children }) => {
     check();
   }, [_id, dispatch, router]);
 
-  if (!_id) return <div></div>;
+  if (!_id) return <h1>Carregando...</h1>;
   return (
-    <div style={{ width: "100%" }}>
-      <Header />
-      {children}
-    </div>
+    <>
+      <AsideMenu />
+      <div style={{ width: "100%" }}>
+        <Header />
+        <main>{children}</main>
+      </div>
+
+      <style jsx>{`
+        main {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          margin-top: 64px;
+        }
+      `}</style>
+    </>
   );
 };
 

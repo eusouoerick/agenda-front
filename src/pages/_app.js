@@ -5,8 +5,7 @@ import store from "../store";
 import classNames from "classnames";
 import "../styles/globals.css";
 
-import AsideMenu from "../components/Dashboard/AsideMenu";
-import MainDashboard from "../components/Dashboard/Main";
+import Dashboard from "../components/Dashboard/Main";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -19,12 +18,9 @@ function MyApp({ Component, pageProps }) {
           {Component.getLayout ? (
             <Component {...pageProps} />
           ) : (
-            <>
-              <AsideMenu />
-              <MainDashboard style={{ width: "100%" }}>
-                <Component {...pageProps} />
-              </MainDashboard>
-            </>
+            <Dashboard style={{ width: "100%" }}>
+              <Component {...pageProps} />
+            </Dashboard>
           )}
         </div>
       </Provider>
