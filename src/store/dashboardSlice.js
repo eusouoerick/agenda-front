@@ -6,6 +6,7 @@ const asideMenuPages = [
   { name: "Graphs", href: "/dashboard/graphs", icon: "leaderboard", onlyAdm: true },
   { name: "Services", href: "/dashboard/services", icon: "shopping_cart" },
   { name: "Users", href: "/dashboard/users", icon: "people", onlyAdm: true },
+  { name: "Help", href: "/dashboard/help", icon: "help" },
   // { name: "Settings", href: "/dashboard/settings", icon: "settings" },
 ];
 

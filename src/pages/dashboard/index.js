@@ -1,12 +1,37 @@
-import { useQuery } from "@apollo/client";
-import { GET_SCHEDULES } from "../../graphql/schemas/schedules";
+import { useQuery, useMutation, gql } from "@apollo/client";
+import { GET_SCHEDULES, DELETE_SCHEDULE } from "../../graphql/schemas/schedules";
 import { format } from "date-fns";
 import classnames from "classnames";
 
 const Dashboard = () => {
   const { data, loading, error } = useQuery(GET_SCHEDULES);
+  const [deleteSchedule, { deletedData }] = useMutation(DELETE_SCHEDULE);
+
+  const handleDelete = async (id) => {
+    await deleteSchedule({
+      variables: { id },
+      update(cache, _) {
+        const { schedules } = cache.readQuery({ query: GET_SCHEDULES });
+        cache.writeQuery({
+          query: GET_SCHEDULES,
+          data: {
+            schedules: schedules.filter((schedule) => schedule._id !== id),
+          },
+        });
+      },
+    });
+  };
+
+  if (error) return <p>Error : {error}</p>;
   return (
     <div>
+      <div>
+        <button>Criar </button>
+        <button>Atualizar </button>
+        <button>1 </button>
+        <button>2 </button>
+        <button>3 </button>
+      </div>
       <table>
         <thead>
           <tr>
@@ -26,14 +51,20 @@ const Dashboard = () => {
               <td className='blur'>{item.createdBy.contact}</td>
               <td>{item.service.name}</td>
               <td style={{ padding: "10px 0" }}>
-                <span className={classnames("status", { completed: item.status })}>
-                  {item.status ? "Completed" : "Pending"}
+                <span
+                  className={classnames("status", {
+                    completed: item.status === "completed",
+                    cancelled: item.status === "cancelled",
+                  })}
+                  style={{ textTransform: "capitalize" }}
+                >
+                  {item.status}
                 </span>
               </td>
-              <td className='blur'>{format(new Date(), "dd/MM/yyyy")}</td>
+              <td className='blur'>{format(new Date(item.date), "dd/MM/yyyy")}</td>
               <td>R$ {item.service.price.toString().replace(".", ",")}</td>
               <td>
-                <button className='delete'>
+                <button className='delete' onClick={() => handleDelete(item._id)}>
                   <span className='material-icons'>close</span>
                 </button>
               </td>
@@ -87,6 +118,10 @@ const Dashboard = () => {
         .status.completed {
           background-color: var(--completed-background);
           color: var(--color-completed);
+        }
+        .status.cancelled {
+          background-color: var(--cancelled-background);
+          color: var(--color-cancelled);
         }
         button.delete {
           padding: 0px;

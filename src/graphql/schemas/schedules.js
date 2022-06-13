@@ -20,4 +20,8 @@ export const GET_SCHEDULES = gql`
   }
 `;
 
-console.log(new Date().toString());
+export const DELETE_SCHEDULE = gql`
+  mutation deleteSchedule($id: ID!) {
+    deleteSchedule(id: $id)
+  }
+`;
