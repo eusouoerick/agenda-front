@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client";
+import getFields from "get-fields";
 
 export const CREATE_USER = gql`
   mutation CreateUser($data: CreateUserInput) {
@@ -12,13 +13,13 @@ export const LOGIN = gql`
   }
 `;
 
-export const GET_USER = gql`
-  query GetUser {
-    getUser {
-      _id
-      adm
-      name
-      contact
+export function GET_USER() {
+  const fields = getFields(arguments);
+  return gql`
+    query GetUser {
+      getUser {
+       ${fields}
+      }
     }
-  }
-`;
+  `;
+}

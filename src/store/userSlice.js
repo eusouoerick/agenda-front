@@ -4,7 +4,9 @@ import { print } from "graphql";
 import graphqlAPI from "../graphql/graphqlApi";
 
 export const getUser = createAsyncThunk("user/getUser", async () => {
-  const { getUser } = await graphqlAPI(print(GET_USER));
+  const { getUser } = await graphqlAPI(
+    print(GET_USER("_id", "adm", "name", "contact"))
+  );
   return getUser;
 });
 

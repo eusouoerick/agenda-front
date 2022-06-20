@@ -57,7 +57,7 @@ const LoginModal = ({ loginLayout }) => {
   };
 
   return (
-    <div className={style["login-modal"]} onClick={(e) => e.stopPropagation()}>
+    <div className={style["login-modal"]}>
       <h2>{layout ? "Login" : "Criar conta"}</h2>
       {!loading && (
         <>

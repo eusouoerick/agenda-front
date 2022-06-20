@@ -827,6 +827,11 @@
   "resolved" "https://registry.npmjs.org/functions-have-names/-/functions-have-names-1.2.3.tgz"
   "version" "1.2.3"
 
+"get-fields@^1.0.6":
+  "integrity" "sha512-86hs3od65Cuaeh6oi+k7gSIeNKKew1dTfFq2buD8V8OeULod05M5C2KkZ+AN68HYDXjKO7+Fdg8B92bPall12Q=="
+  "resolved" "https://registry.npmjs.org/get-fields/-/get-fields-1.0.6.tgz"
+  "version" "1.0.6"
+
 "get-intrinsic@^1.0.2", "get-intrinsic@^1.1.0", "get-intrinsic@^1.1.1":
   "integrity" "sha512-kWZrnVM42QCiEA2Ig1bG8zjoIMOgxWwYCEeNdwY6Tv/cOSeGpcoX4pXHfKUxNKVoArnrEr2e9srnAxxGIraS9Q=="
   "resolved" "https://registry.npmjs.org/get-intrinsic/-/get-intrinsic-1.1.1.tgz"

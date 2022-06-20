@@ -1,24 +1,16 @@
 import { gql } from "@apollo/client";
+import getFields from "get-fields";
 
-export const GET_SCHEDULES = gql`
-  query GetSchedules {
-    schedules {
-      _id
-      createdBy {
-        _id
-        name
-        contact
+export function GET_SCHEDULES() {
+  const fields = getFields(arguments);
+  return gql`
+    query GetSchedules {
+      schedules {
+        ${fields}
       }
-      service {
-        _id
-        name
-        price
-      }
-      date
-      status
     }
-  }
-`;
+  `;
+}
 
 export const DELETE_SCHEDULE = gql`
   mutation deleteSchedule($id: ID!) {

@@ -4,10 +4,10 @@ import { setWindowBlur } from "../../store/settingsSlice";
 import style from "./windowBlur.module.css";
 
 const WindowBlur = ({ children, setChildrenState }) => {
-  // setChildrenState tem que uma função que altera o estado
-  // de um Boolean
+  // setChildrenState - Quando o windowBlur fechar ele vai chamar essa função
+  // para setar o estado do componente que está dentro do windowBlur para que ele seja fechado
   const dispatch = useDispatch();
-  
+
   // • Não tá respondendo quando o windowBlur é "false"
   // const { windowBlur } = useSelector((state) => state.settings);
   // useEffect(() => {
@@ -23,10 +23,12 @@ const WindowBlur = ({ children, setChildrenState }) => {
       className={style.windowBlur}
       onClick={() => {
         dispatch(setWindowBlur());
-        setChildrenState(() => false);
+        if (setChildrenState) {
+          setChildrenState(() => false);
+        }
       }}
     >
-      <div>{children}</div>
+      <div onClick={(e) => e.stopPropagation()}>{children}</div>
     </div>
   );
 };
