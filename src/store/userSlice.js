@@ -13,16 +13,19 @@ export const getUser = createAsyncThunk("user/getUser", async () => {
 const userSlice = createSlice({
   name: "user",
   initialState: {
+    loading: true,
     _id: "",
     adm: false,
     name: "",
     contact: "",
   },
   extraReducers: {
-    [getUser.fulfilled]: (state, action) => action.payload,
-    [getUser.rejected]: (state, action) => console.error(action.error),
+    [getUser.fulfilled]: (state, action) => ({ ...action.payload, loading: false }),
+    [getUser.rejected]: (state, action) => {
+      console.error(action.error.message);
+      state.loading = false;
+    },
   },
 });
 
-// export const { setUser } = userSlice.actions;
 export default userSlice.reducer;

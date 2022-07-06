@@ -10,6 +10,7 @@ const httpLink = new HttpLink({
   uri: "http://localhost:4000/graphql",
 });
 
+// Configura o cabecalho da requisição com o token
 const authMiddleware = new ApolloLink((operation, forward) => {
   operation.setContext(({ headers = {} }) => {
     const token = localStorage.getItem("token");
@@ -30,6 +31,7 @@ export default new ApolloClient({
       Query: {
         fields: {
           schedules: {
+            keyArgs: [],
             merge(_, incoming) {
               return incoming;
             },

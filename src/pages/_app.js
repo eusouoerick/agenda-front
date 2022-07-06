@@ -11,10 +11,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <ApolloProvider client={client}>
       <Provider store={store}>
-        <div
-          style={{ width: "100vw", height: "100vh" }}
-          className={classNames({ "dashboard-container": !Component.getLayout })}
-        >
+        <div className={classNames({ "dashboard-container": !Component.getLayout })}>
           {Component.getLayout ? (
             <Component {...pageProps} />
           ) : (

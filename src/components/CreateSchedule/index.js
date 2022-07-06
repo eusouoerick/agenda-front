@@ -1,77 +1,122 @@
-import { gql, useQuery } from "@apollo/client";
+import { useRef, useCallback } from "react";
+import { useQuery, useMutation } from "@apollo/client";
 import { format } from "date-fns";
+import { GET_SERVICES } from "../../graphql/schemas/services";
+import { CREATE_SCHEDULE, GET_SCHEDULES } from "../../graphql/schemas/schedules";
 
-const GET_SERVICES = gql`
-  query GetServices {
-    services {
-      _id
-      name
-      price
-    }
-  }
-`;
+// get-fields - https://github.com/eusouoerick/get-fields
+const SCHEMA = [
+  "_id",
+  { name: "createdBy", items: ["_id", "name", "contact"] },
+  { name: "service", items: ["_id", "name", "price", "duration"] },
+  "date",
+  "status",
+];
 
 const CreateSchedule = ({ closeCreator }) => {
-  const { data, loading, error } = useQuery(GET_SERVICES);
+  const date = useRef();
+  const time = useRef();
+  const service = useRef();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("submit");
-  };
+  const {
+    data,
+    loading,
+    error: servicesError,
+  } = useQuery(GET_SERVICES("_id", "name", "price"));
+  const [createSchedule, { error: createError }] = useMutation(
+    CREATE_SCHEDULE(...SCHEMA) // fields que vão ser retornados da consulta;
+  );
+
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      createSchedule({
+        variables: {
+          data: {
+            service: service.current.value,
+            date: new Date(`${date.current.value} ${time.current.value}`),
+          },
+        },
+        update: (cache, { data: { createSchedule } }) => {
+          const { schedules } = cache.readQuery({
+            query: GET_SCHEDULES(...SCHEMA),
+          });
+          cache.writeQuery({
+            query: GET_SCHEDULES(...SCHEMA),
+            data: {
+              schedules: [createSchedule, ...schedules],
+            },
+          });
+        },
+        onCompleted: () => closeCreator(),
+        onError: (error) => console.log(error.message),
+      });
+    },
+    [createSchedule, closeCreator]
+  );
+
   return (
     <>
-      <form className='modal' onSubmit={handleSubmit}>
-        <h2 style={{ fontSize: 22 }}>Erro mensagem</h2>
-        <div className='date-container'>
-          <div className='input-area'>
-            <label htmlFor='date'>Data</label>
-            <input
-              className='input'
-              id='date'
-              name='date'
-              type='date'
-              min={format(new Date(), "yyyy-MM-dd")}
-              autoFocus
-              // required
-            />
+      <form className='form' onSubmit={handleSubmit}>
+        {true && <span className='error'>{createError?.message}</span>}
+        <div className='fc'>
+          <div className='date-container'>
+            <div className='input-area'>
+              <label htmlFor='date'>Data</label>
+              <input
+                ref={date}
+                className='input'
+                id='date'
+                name='date'
+                type='date'
+                min={format(new Date(), "yyyy-MM-dd")}
+                autoFocus
+                required
+              />
+            </div>
+            <div className='input-area'>
+              <label htmlFor=''>Horario</label>
+              <input
+                ref={time}
+                style={{ minWidth: 90, maxWidth: 90 }}
+                className='input'
+                id='time'
+                name='time'
+                type='time'
+                value={"09:00"}
+                onChange={(e) => e.target.value}
+                min='09:00'
+                max='18:00'
+                required
+              />
+            </div>
           </div>
-          <div className='input-area'>
-            <label htmlFor=''>Horario</label>
-            <input
-              style={{ minWidth: 90, maxWidth: 90 }}
-              className='input'
-              id='time'
-              name='time'
-              type='time'
-              // min='09:00'
-              // max='18:00'
-              // required
-            />
-          </div>
-        </div>
-        <div className='input-area services-area'>
-          <label htmlFor='services'>Serviço</label>
-          <select className='input' name='services' id='services'>
-            <option value='' defaultChecked style={{ color: "transparent" }}>
-              Selecionar
-            </option>
-            {data?.services.map((item) => (
-              <option value={item._id} key={item._id}>
-                {item.name} - R${item.price.toString().replace(".", ",")}
+          <div className='input-area services-area'>
+            <label htmlFor='services'>Serviço</label>
+            <select ref={service} className='input' name='services' id='services'>
+              <option value='' defaultChecked style={{ color: "transparent" }}>
+                Selecionar
               </option>
-            ))}
-          </select>
-        </div>
-        <div className='btns'>
-          <button type='submit'>Agendar dia</button>
-          <button className='blur' onClick={closeCreator}>
-            Cancelar
-          </button>
+              {data?.services.map((item) => (
+                <option value={item._id} key={item._id}>
+                  {item.name} - R${item.price.toString().replace(".", ",")}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className='btns'>
+            <button type='submit' disabled={loading}>
+              Agendar dia
+            </button>
+            <button className='blur' onClick={closeCreator}>
+              Cancelar
+            </button>
+          </div>
         </div>
       </form>
 
       <style jsx>{`
-        .modal {
+        .form {
           width: 350px;
           height: 360px;
           background: #fff;
@@ -80,12 +125,23 @@ const CreateSchedule = ({ closeCreator }) => {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 10px;
+          justify-content: center;
+          gap: 30px;
         }
-        .modal .input-area {
+        .form .input-area {
           display: flex;
           flex-direction: column;
           gap: 5px;
+        }
+        span.error {
+          color: red;
+          margin-top: 10px;
+        }
+        .fc {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 10px;
         }
         .input {
           width: 100%;

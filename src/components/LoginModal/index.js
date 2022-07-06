@@ -77,7 +77,7 @@ const LoginModal = ({ loginLayout }) => {
                   autoComplete='off'
                   value={form.name}
                   onChange={handleChange}
-                  autoFocus={true}
+                  autoFocus={!layout}
                 />
               </div>
             )}
@@ -91,7 +91,7 @@ const LoginModal = ({ loginLayout }) => {
                 autoComplete='off'
                 value={form.contact}
                 onChange={handleChange}
-                autoFocus={true}
+                autoFocus={layout}
               />
             </div>
             <div className={style["input-area"]}>

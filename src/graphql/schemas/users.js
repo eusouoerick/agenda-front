@@ -13,8 +13,8 @@ export const LOGIN = gql`
   }
 `;
 
-export function GET_USER() {
-  const fields = getFields(arguments);
+export const GET_USER = (...args) => {
+  const fields = getFields(args);
   return gql`
     query GetUser {
       getUser {
@@ -22,4 +22,4 @@ export function GET_USER() {
       }
     }
   `;
-}
+};

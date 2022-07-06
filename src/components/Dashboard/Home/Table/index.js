@@ -1,41 +1,76 @@
-import { useQuery, useMutation, gql } from "@apollo/client";
+import { useCallback, useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useQuery, useMutation } from "@apollo/client";
 import { GET_SCHEDULES, DELETE_SCHEDULE } from "../../../../graphql/schemas/schedules";
 import { format } from "date-fns";
 import classnames from "classnames";
 
 import HeaderTable from "./Header";
 
-const Table = () => {
-  const { data, loading, error } = useQuery(
-    GET_SCHEDULES(
-      "_id",
-      { name: "createdBy", items: ["_id", "name", "contact"] },
-      { name: "service", items: ["_id", "name", "price", "duration"] },
-      "date",
-      "status"
-    )
-  );
-  const [deleteSchedule] = useMutation(DELETE_SCHEDULE);
+// get-fields - https://github.com/eusouoerick/get-fields
+const SCHEMA = GET_SCHEDULES(
+  "_id",
+  { name: "createdBy", items: ["_id", "name", "contact"] },
+  { name: "service", items: ["_id", "name", "price", "duration"] },
+  "date",
+  "status"
+);
 
-  const handleDelete = async (id) => {
-    await deleteSchedule({
-      variables: { id },
-      update(cache, _) {
-        const { schedules } = cache.readQuery({ query: GET_SCHEDULES });
-        cache.writeQuery({
-          query: GET_SCHEDULES,
-          data: {
-            schedules: schedules.filter((schedule) => schedule._id !== id),
-          },
-        });
-      },
-    });
-  };
+const Table = () => {
+  // dados dos filtros / redux
+  const dispatch = useDispatch();
+  const { service, status } = useSelector((state) => state.tableFilter);
+  // -------------------------------------------------
+  const [page, setPage] = useState(1);
+  const [deleteSchedule] = useMutation(DELETE_SCHEDULE);
+  const { data, loading, error, fetchMore } = useQuery(SCHEMA, {
+    variables: { page },
+  });
+
+  const handlePage = useCallback((page) => {
+    setPage((state) => page || state + 1);
+  }, []);
+
+  const handleDelete = useCallback(
+    async (id) => {
+      await deleteSchedule({
+        variables: { id },
+        update(cache) {
+          const { schedules } = cache.readQuery({ query: SCHEMA });
+          cache.writeQuery({
+            query: SCHEMA,
+            data: {
+              schedules: schedules.filter((schedule) => schedule._id !== id),
+            },
+          });
+        },
+      });
+    },
+    [deleteSchedule]
+  );
+
+  useEffect(() => {
+    if (page !== 1) {
+      fetchMore({
+        variables: {
+          page,
+        },
+        updateQuery(prev, { fetchMoreResult }) {
+          if (!fetchMoreResult) return prev;
+          return {
+            ...prev,
+            schedules: [...prev.schedules, ...fetchMoreResult.schedules],
+          };
+        },
+      });
+    }
+  }, [fetchMore, page]);
 
   if (error) return <p>Error : {error.message}</p>;
   return (
     <div>
-      <HeaderTable />
+      <HeaderTable handlePage={handlePage} refetchQuerie={SCHEMA} />
+      <button onClick={() => handlePage()}>fetchMore</button>
       <table>
         <thead>
           <tr>
@@ -56,11 +91,11 @@ const Table = () => {
               <td>{item.service.name}</td>
               <td style={{ padding: "10px 0" }}>
                 <span
+                  style={{ textTransform: "capitalize" }}
                   className={classnames("status", {
                     completed: item.status === "completed",
                     cancelled: item.status === "cancelled",
                   })}
-                  style={{ textTransform: "capitalize" }}
                 >
                   {item.status}
                 </span>
@@ -69,7 +104,7 @@ const Table = () => {
                 <span>
                   {format(new Date(item.date), "H") +
                     "h" +
-                    format(new Date(item.date), "mm")}
+                    (+format(new Date(item.date), "mm") || "")}
                 </span>
                 <span className=''>{format(new Date(item.date), "dd/MM/yyyy")}</span>
               </td>

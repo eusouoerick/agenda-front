@@ -5,7 +5,6 @@ const settingsSlice = createSlice({
   initialState: {
     isLoading: false,
     error: null,
-    modal: false,
     windowBlur: false,
   },
   reducers: {
@@ -15,14 +14,11 @@ const settingsSlice = createSlice({
     setError: (state, action) => {
       state.error = action.payload;
     },
-    setModal: (state) => {
-      state.modal = !state.modal;
-    },
     setWindowBlur: (state) => {
       state.windowBlur = !state.windowBlur;
     },
   },
 });
 
-export const { setLoading, setError, setModal, setWindowBlur } = settingsSlice.actions;
+export const { setLoading, setError, setWindowBlur } = settingsSlice.actions;
 export default settingsSlice.reducer;

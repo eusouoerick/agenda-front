@@ -1,24 +1,23 @@
-import { useState } from "react";
-
-import { useDispatch, useSelector } from "react-redux";
-import { setWindowBlur } from "../../../../../store/settingsSlice";
+import { useState, useCallback } from "react";
+import client from "../../../../../graphql/ApolloConfig";
+import classnames from "classnames";
 
 import WindowBlur from "../../../../windowBlur";
 import CreateSchedule from "../../../../CreateSchedule";
+import FilterModal from "./FilterModal";
 
-const HeaderTable = () => {
+const HeaderTable = ({ handlePage, refetchQuerie }) => {
+  const [loading, setLoading] = useState(false);
   const [createOpen, setCreateOpen] = useState(false);
-  const dispatch = useDispatch();
-  const { windowBlur } = useSelector((state) => state.settings);
+  const [filterOpen, setFilterOpen] = useState(false);
 
-  const handleCreateSchedule = () => {
+  const handleCreateSchedule = useCallback(() => {
     setCreateOpen((state) => !state);
-    dispatch(setWindowBlur(true));
-  };
+  }, []);
 
   return (
     <>
-      {windowBlur && createOpen && (
+      {createOpen && (
         <WindowBlur setChildrenState={setCreateOpen}>
           <CreateSchedule closeCreator={handleCreateSchedule} />
         </WindowBlur>
@@ -31,19 +30,38 @@ const HeaderTable = () => {
               add
             </span>
           </button>
-          <button>
-            <span className='material-icons'>refresh</span>
+          <button
+            onClick={async () => {
+              setLoading(() => true);
+              handlePage(1); // reset page
+              // tem 2 porque o primeiro deixa a última página
+              // e o segundo arruma o refetch
+              await client.refetchQueries({
+                include: [refetchQuerie],
+              });
+              // await client.refetchQueries({
+              //   include: [refetchQuerie],
+              // });
+              setLoading(() => false);
+            }}
+          >
+            <span className={classnames("material-icons", { loading })}>refresh</span>
           </button>
         </div>
         <div className='btns-right'>
-          <button>
-            <span className='material-icons'>sort</span>
-          </button>
+          {filterOpen ? (
+            <FilterModal closeModal={setFilterOpen} />
+          ) : (
+            <button onClick={() => setFilterOpen(() => true)}>
+              <span className='material-icons'>sort</span>
+            </button>
+          )}
         </div>
       </div>
 
       <style jsx>{`
         .table-header {
+          position: relative;
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -71,6 +89,18 @@ const HeaderTable = () => {
         .table-header button:hover {
           border-color: var(--color-primary);
           color: var(--color-primary);
+        }
+        .loading {
+          color: var(--color-primary);
+          animation: spin 0.7s linear infinite;
+        }
+        @keyframes spin {
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
         }
       `}</style>
     </>

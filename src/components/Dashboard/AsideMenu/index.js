@@ -2,6 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import classnames from "classnames";
 import { useSelector, useDispatch } from "react-redux";
+import { setCurrentPage } from "../../../store/dashboardSlice";
 import { setAsideMenuOpen } from "../../../store/dashboardSlice";
 
 const AsideMenu = () => {
@@ -13,6 +14,9 @@ const AsideMenu = () => {
 
   return (
     <>
+      <Head>
+        <title>{currentPage} - Dashboard</title>
+      </Head>
       <aside className={classnames({ open: asideMenuOpen })}>
         <span className='logo'>LOGO</span>
         <button
@@ -32,6 +36,7 @@ const AsideMenu = () => {
                       className={classnames("nav-item", {
                         "item-focus": currentPage === name,
                       })}
+                      onClick={() => dispatch(setCurrentPage(name))}
                     >
                       <span
                         className='material-icons icon'

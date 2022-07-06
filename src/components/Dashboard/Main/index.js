@@ -6,10 +6,12 @@ import { getUser } from "../../../store/userSlice";
 import Header from "../Header";
 import AsideMenu from "../AsideMenu";
 
+// Este componente é responsável por organizar o layout da páginas do dashboard
+// No _app.js ele é chamado como <Dashboard>
 const Main = ({ children }) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { _id } = useSelector((state) => state.user);
+  const { loading, _id } = useSelector((state) => state.user);
 
   useEffect(() => {
     const check = async () => {
@@ -23,26 +25,35 @@ const Main = ({ children }) => {
     check();
   }, [_id, dispatch, router]);
 
-  if (!_id) return <h1>Carregando...</h1>;
-  return (
-    <>
-      <AsideMenu />
-      <div style={{ width: "100%" }}>
-        <Header />
-        <main>{children}</main>
-      </div>
+  useEffect(() => {
+    if (!loading && !_id) {
+      localStorage.removeItem("token");
+      router.push("/");
+    }
+  }, [loading, _id, router]);
 
-      <style jsx>{`
-        main {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          margin-top: 64px;
-        }
-      `}</style>
-    </>
-  );
+  if (loading) return <h1>Carregando...</h1>;
+  if (_id) {
+    return (
+      <>
+        <AsideMenu />
+        <div style={{ width: "100%", overflow: "auto" }}>
+          <Header />
+          <main id='main'>{children}</main>
+        </div>
+
+        <style jsx>{`
+          main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 60px;
+          }
+        `}</style>
+      </>
+    );
+  }
 };
 
 export default Main;
