@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-// --------------------------------------------------------------------------------------------------------------------
-//          Parte que filtrar os dados da tabela e retornar apenas os dados que correspondem ao filtro
-// --------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------
+//          Parte que filtrar os dados da tabela e retornar apenas os dados
+//          que correspondem ao filtro
+// ---------------------------------------------------------------------------------------------
 
 const tableFilterSlice = createSlice({
   name: "tableFilter",

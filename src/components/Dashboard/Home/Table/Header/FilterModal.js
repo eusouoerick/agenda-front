@@ -1,9 +1,8 @@
 import { useEffect } from "react";
 
-// • parent - é o useRef do componente que chamou o modal;
-const FilterModal = ({ closeModal }) => {
-  useEffect(() => {}, []);
+import BtnStatus from "./BtnStatus";
 
+const FilterModal = ({ closeModal }) => {
   return (
     <>
       <div className='filter-modal'>
@@ -13,27 +12,27 @@ const FilterModal = ({ closeModal }) => {
             <span className='material-icons'>close</span>
           </button>
         </div>
-        <form className='body'>
-          <div>
-            <label htmlFor='ft-date'>Data</label>
+        <form className='body' onSubmit={(e) => e.preventDefault()}>
+          <div className='field'>
+            <label htmlFor='ft-date'>Data:</label>
             <input id='ft-date' type='date' />
           </div>
-          <div>
-            <label htmlFor='ft-services'>Serviço</label>
+          <div className='field'>
+            <label htmlFor='ft-services'>Serviço:</label>
             <select id='ft-services'>
+              <option value='all' selected>Todos</option>
               <option value='1'>Serviço 1</option>
               <option value='2'>Serviço 2</option>
               <option value='3'>Serviço 3</option>
             </select>
           </div>
-          <div>
-            <span>Status</span>
-            <input type='checkbox' name='' id='ft-satatus-completed' />
-            <label htmlFor='ft-satatus-completed'>Completed</label>
-            <input type='checkbox' name='' id='ft-satatus-pending' />
-            <label htmlFor='ft-satatus-pending'>Pending</label>
-            <input type='checkbox' name='' id='ft-satatus-cancelled' />
-            <label htmlFor='ft-satatus-cancelled'>Canceled</label>
+          <div className='field' style={{ flexDirection: "column" }}>
+            <span>Status:</span>
+            <div className='btns-status'>
+              <BtnStatus name={"completed"} />
+              <BtnStatus name={"pending"} />
+              <BtnStatus name={"cancelled"} />
+            </div>
           </div>
         </form>
       </div>
@@ -46,7 +45,7 @@ const FilterModal = ({ closeModal }) => {
           position: absolute;
           top: 0;
           right: 0;
-          height: 320px;
+          height: 300px;
           width: 260px;
           background: #fff;
           border: var(--gray-border);
@@ -63,6 +62,41 @@ const FilterModal = ({ closeModal }) => {
           align-items: center;
           padding: 0.5rem;
           border-bottom: var(--gray-border);
+        }
+        .body {
+          padding: 20px 10px;
+          font-size: 16 px;
+        }
+        .field {
+          position: relative;
+          margin-bottom: 15px;
+        }
+        .field label {
+          margin-right: 0.5rem;
+        }
+        .field select {
+          margin-top: 5px;
+          padding: 3px 10px;
+          width: 100%;
+        }
+        .field input[type="date"] {
+          width: 150px;
+          padding: 2px 5px;
+          position: absolute;
+          right: 0;
+        }
+        .field .btns-status {
+          margin-top: 5px;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-around;
+          gap: 10px 0;
+        }
+        .field input[type="checkbox"] {
+          display: none;
+        }
+        .field input[type="checkbox"]:checked + label {
+          color: var(--color-completed);
         }
       `}</style>
     </>

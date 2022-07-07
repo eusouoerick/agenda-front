@@ -20,12 +20,17 @@
   --text-color-primary: hsl(337deg 100% 64%);
   --dashboard-aside-background: hsl(337deg 70% 50% / 20%);
 
+  /* Cores dos butões de status */
   --color-completed: hsla(158, 85%, 34%, 1);
   --completed-background: hsla(160, 100%, 95%, 1);
+  --completed-border: hsl(158deg 85% 88%);
   --color-pending: hsla(27, 97%, 53%, 1);
   --pending-background: hsla(30, 100%, 96%, 1);
+  --pending-border: hsl(27deg 97% 88%);
   --color-cancelled: hsla(0, 100%, 50%, 1);
   --cancelled-background: hsla(356, 100%, 98%, 1);
+  --cancelled-border: hsl(0deg 100% 88%);
+  
   --gray-border: 1px solid #e6e6e6;
 }
 
