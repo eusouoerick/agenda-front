@@ -17,17 +17,16 @@ const SCHEMA = GET_SCHEDULES(
 );
 
 const Table = () => {
-  // dados dos filtros / redux
-  const dispatch = useDispatch();
-  const { service, status } = useSelector((state) => state.tableFilter);
-  // -------------------------------------------------
+  const { service, status, date } = useSelector((state) => state.tableFilter);
   const [page, setPage] = useState(1);
+  const [cachedPage, setCachedPage] = useState(false); // impede que ocorra uma busca repetida na pagina atual
   const [deleteSchedule] = useMutation(DELETE_SCHEDULE);
   const { data, loading, error, fetchMore } = useQuery(SCHEMA, {
-    variables: { page },
+    variables: { page: 1, service, date },
   });
 
   const handlePage = useCallback((page) => {
+    setCachedPage(() => false);
     setPage((state) => page || state + 1);
   }, []);
 
@@ -50,10 +49,24 @@ const Table = () => {
   );
 
   useEffect(() => {
-    if (page !== 1) {
+    // Deixa paginação sincronizada com o cache do Apollo
+    if (page <= 1) {
+      const limit = 2; // quantidade de registros por página
+      if (data?.schedules.length) {
+        const currentPage = Math.ceil(data?.schedules.length / limit);
+        setPage(() => (currentPage === 0 ? 1 : currentPage));
+        setCachedPage(() => true);
+      }
+    }
+  }, [page, data]);
+
+  useEffect(() => {
+    if (page !== 1 && !cachedPage) {
       fetchMore({
         variables: {
           page,
+          service,
+          date,
         },
         updateQuery(prev, { fetchMoreResult }) {
           if (!fetchMoreResult) return prev;
@@ -64,12 +77,12 @@ const Table = () => {
         },
       });
     }
-  }, [fetchMore, page]);
+  }, [date, fetchMore, page, cachedPage, service]);
 
   if (error) return <p>Error : {error.message}</p>;
   return (
     <div>
-      <HeaderTable handlePage={handlePage} refetchQuerie={SCHEMA} />
+      <HeaderTable handlePage={handlePage} refetchQuerie={SCHEMA} setPage={setPage} />
       <button onClick={() => handlePage()}>fetchMore</button>
       <table>
         <thead>
@@ -84,38 +97,44 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          {data?.schedules?.map((item) => (
-            <tr key={item._id}>
-              <td className='focus'>{item.createdBy.name}</td>
-              <td className='blur'>{item.createdBy.contact}</td>
-              <td>{item.service.name}</td>
-              <td style={{ padding: "10px 0" }}>
-                <span
-                  style={{ textTransform: "capitalize" }}
-                  className={classnames("status", {
-                    completed: item.status === "completed",
-                    cancelled: item.status === "cancelled",
-                  })}
-                >
-                  {item.status}
-                </span>
-              </td>
-              <td className='blur align-itens'>
-                <span>
-                  {format(new Date(item.date), "H") +
-                    "h" +
-                    (+format(new Date(item.date), "mm") || "")}
-                </span>
-                <span className=''>{format(new Date(item.date), "dd/MM/yyyy")}</span>
-              </td>
-              <td>R$ {item.service.price.toString().replace(".", ",")}</td>
-              <td>
-                <button className='delete' onClick={() => handleDelete(item._id)}>
-                  <span className='material-icons'>close</span>
-                </button>
-              </td>
-            </tr>
-          ))}
+          {data?.schedules?.map((item) => {
+            if (status.includes(item.status)) {
+              return (
+                <tr key={item._id}>
+                  <td className='focus'>{item.createdBy.name}</td>
+                  <td className='blur'>{item.createdBy.contact}</td>
+                  <td>{item.service.name}</td>
+                  <td style={{ padding: "10px 0" }}>
+                    <span
+                      style={{ textTransform: "capitalize" }}
+                      className={classnames("status", {
+                        completed: item.status === "completed",
+                        cancelled: item.status === "cancelled",
+                      })}
+                    >
+                      {item.status}
+                    </span>
+                  </td>
+                  <td className='blur align-itens'>
+                    <span>
+                      {format(new Date(item.date), "H") +
+                        "h" +
+                        (+format(new Date(item.date), "mm") || "")}
+                    </span>
+                    <span className=''>
+                      {format(new Date(item.date), "dd/MM/yyyy")}
+                    </span>
+                  </td>
+                  <td>R$ {item.service.price.toString().replace(".", ",")}</td>
+                  <td>
+                    <button className='delete' onClick={() => handleDelete(item._id)}>
+                      <span className='material-icons'>close</span>
+                    </button>
+                  </td>
+                </tr>
+              );
+            }
+          })}
         </tbody>
       </table>
 

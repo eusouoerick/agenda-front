@@ -73,7 +73,6 @@ const AsideMenu = () => {
           align-items: center;
           color: #fff;
           padding: 20px 0;
-          /* transition: width 0.2s ease-in-out; */
         }
         aside.open {
           width: 230px;

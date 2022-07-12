@@ -1,13 +1,17 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { setStatus } from "../../../../../store/tableFilterSlice";
 import classNames from "classnames";
 
 const BtnStatus = ({ name }) => {
-  const [clicked, setClicked] = useState(false);
-  
+  const dispatch = useDispatch();
+  const { status } = useSelector((state) => state.tableFilter);
+  const [clicked, setClicked] = useState(status.includes(name));
+
   const handleClick = useCallback(() => {
     setClicked((state) => !state);
-  }, []);
+    dispatch(setStatus(name));
+  }, [dispatch, name]);
 
   return (
     <>
@@ -51,4 +55,4 @@ const BtnStatus = ({ name }) => {
   );
 };
 
-export default BtnStatus;
+export default memo(BtnStatus);

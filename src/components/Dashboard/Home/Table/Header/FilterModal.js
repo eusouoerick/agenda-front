@@ -1,11 +1,36 @@
-import { useEffect } from "react";
-
+import { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setService, setDate } from "../../../../../store/tableFilterSlice";
+import { useQuery } from "@apollo/client";
 import BtnStatus from "./BtnStatus";
 
-const FilterModal = ({ closeModal }) => {
+import { GET_SERVICES } from "../../../../../graphql/schemas/services";
+const SCHEMA = GET_SERVICES("_id", "name", "price");
+
+const FilterModal = ({ closeModal, setPage }) => {
+  const dispatch = useDispatch();
+  const { service, date } = useSelector((state) => state.tableFilter);
+  const { data, loading, error } = useQuery(SCHEMA);
+
+  const selectService = useCallback(
+    (id) => {
+      setPage(() => 1);
+      dispatch(setService(id));
+    },
+    [dispatch, setPage]
+  );
+
+  const selectDate = useCallback(
+    (date) => {
+      setPage(() => 1);
+      dispatch(setDate(date));
+    },
+    [dispatch, setPage]
+  );
+
   return (
     <>
-      <div className='filter-modal'>
+      <div className='filter-modal' onClick={(e) => e.stopPropagation()}>
         <div className='header'>
           <span>Filtros</span>
           <button onClick={() => closeModal(() => false)}>
@@ -15,16 +40,30 @@ const FilterModal = ({ closeModal }) => {
         <form className='body' onSubmit={(e) => e.preventDefault()}>
           <div className='field'>
             <label htmlFor='ft-date'>Data:</label>
-            <input id='ft-date' type='date' />
+            <input
+              id='ft-date'
+              type='date'
+              value={date}
+              onChange={(e) => selectDate(e.target.value)}
+            />
           </div>
           <div className='field'>
             <label htmlFor='ft-services'>Serviço:</label>
-            <select id='ft-services'>
-              <option value='all' selected>Todos</option>
-              <option value='1'>Serviço 1</option>
-              <option value='2'>Serviço 2</option>
-              <option value='3'>Serviço 3</option>
-            </select>
+            {loading && <p>Loading...</p>}
+            {!loading && (
+              <select
+                id='ft-services'
+                defaultValue={service}
+                onChange={(e) => selectService(e.target.value)}
+              >
+                <option value='all'>Todos</option>
+                {data?.services?.map((item) => (
+                  <option key={item._id} value={item._id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+            )}
           </div>
           <div className='field' style={{ flexDirection: "column" }}>
             <span>Status:</span>
@@ -45,8 +84,10 @@ const FilterModal = ({ closeModal }) => {
           position: absolute;
           top: 0;
           right: 0;
-          height: 300px;
-          width: 260px;
+          height: 24px;
+          width: 24px;
+          animation: slide 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+          overflow: hidden;
           background: #fff;
           border: var(--gray-border);
           border-radius: 4px;
@@ -55,6 +96,12 @@ const FilterModal = ({ closeModal }) => {
           color: #585858;
           z-index: 1;
           box-shadow: 0px 4px 10px hsl(0deg 0% 60%);
+        }
+        @keyframes slide {
+          100% {
+            width: 260px;
+            height: 290px;
+          }
         }
         .header {
           display: flex;
@@ -65,7 +112,6 @@ const FilterModal = ({ closeModal }) => {
         }
         .body {
           padding: 20px 10px;
-          font-size: 16 px;
         }
         .field {
           position: relative;

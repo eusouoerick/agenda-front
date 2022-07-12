@@ -31,7 +31,7 @@ export default new ApolloClient({
       Query: {
         fields: {
           schedules: {
-            keyArgs: [],
+            keyArgs: ["service", "date"],
             merge(_, incoming) {
               return incoming;
             },

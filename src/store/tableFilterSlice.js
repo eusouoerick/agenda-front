@@ -8,19 +8,31 @@ import { createSlice } from "@reduxjs/toolkit";
 const tableFilterSlice = createSlice({
   name: "tableFilter",
   initialState: {
-    service: "",
-    status: [],
     date: "",
+    service: "all",
+    status: ["pending", "completed", "cancelled"],
   },
   reducers: {
+    setDate: (state, action) => {
+      state.date = action.payload;
+    },
     setService: (state, action) => {
       state.service = action.payload;
     },
     setStatus: (state, action) => {
-      state.status = action.payload;
+      if (state.status.includes(action.payload)) {
+        state.status = state.status.filter((status) => status !== action.payload);
+      } else {
+        state.status.push(action.payload);
+      }
+    },
+    resetState: (state) => {
+      state.date = "";
+      state.service = "all";
+      state.status = ["pending", "completed", "cancelled"];
     },
   },
 });
 
-export const { setService, setStatus } = tableFilterSlice.actions;
+export const { setService, setStatus, setDate, resetState } = tableFilterSlice.actions;
 export default tableFilterSlice.reducer;

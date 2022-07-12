@@ -1,4 +1,6 @@
 import { useState, useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { resetState } from "../../../../../store/tableFilterSlice";
 import client from "../../../../../graphql/ApolloConfig";
 import classnames from "classnames";
 
@@ -6,25 +8,32 @@ import WindowBlur from "../../../../windowBlur";
 import CreateSchedule from "../../../../CreateSchedule";
 import FilterModal from "./FilterModal";
 
-const HeaderTable = ({ handlePage, refetchQuerie }) => {
+const HeaderTable = ({ handlePage, refetchQuerie, setPage }) => {
+  const dispatch = useDispatch();
+  const { service, status, date } = useSelector((state) => state.tableFilter);
   const [loading, setLoading] = useState(false);
   const [createOpen, setCreateOpen] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
 
-  const handleCreateSchedule = useCallback(() => {
+  const toggleFilterVisibility = useCallback(() => {
     setCreateOpen((state) => !state);
   }, []);
+
+  const resetFilter = useCallback(() => {
+    dispatch(resetState());
+    setPage(1);
+  }, [dispatch, setPage]);
 
   return (
     <>
       {createOpen && (
-        <WindowBlur setChildrenState={setCreateOpen}>
-          <CreateSchedule closeCreator={handleCreateSchedule} />
+        <WindowBlur setChildrenState={toggleFilterVisibility}>
+          <CreateSchedule closeCreator={toggleFilterVisibility} />
         </WindowBlur>
       )}
       <div className='table-header'>
         <div className='btns-left'>
-          <button onClick={handleCreateSchedule}>
+          <button onClick={toggleFilterVisibility}>
             Agendar dia
             <span className='material-icons' style={{ marginLeft: 3 }}>
               add
@@ -50,11 +59,16 @@ const HeaderTable = ({ handlePage, refetchQuerie }) => {
         </div>
         <div className='btns-right'>
           {filterOpen ? (
-            <FilterModal closeModal={setFilterOpen} />
+            <FilterModal closeModal={setFilterOpen} setPage={setPage} />
           ) : (
-            <button onClick={() => setFilterOpen(() => true)}>
-              <span className='material-icons'>sort</span>
-            </button>
+            <>
+              {date || service !== "all" || status.length !== 3 ? (
+                <button onClick={resetFilter}>Remover filtros</button>
+              ) : null}
+              <button onClick={() => setFilterOpen(() => true)}>
+                <span className='material-icons'>sort</span>
+              </button>
+            </>
           )}
         </div>
       </div>
@@ -74,6 +88,8 @@ const HeaderTable = ({ handlePage, refetchQuerie }) => {
           gap: 10px;
         }
         .table-header button {
+          heigh: 36px;
+          min-height: 36px;
           display: flex;
           align-items: center;
           justify-content: center;
