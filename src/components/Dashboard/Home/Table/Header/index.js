@@ -42,15 +42,10 @@ const HeaderTable = ({ handlePage, refetchQuerie, setPage }) => {
           <button
             onClick={async () => {
               setLoading(() => true);
-              handlePage(1); // reset page
-              // tem 2 porque o primeiro deixa a última página
-              // e o segundo arruma o refetch
               await client.refetchQueries({
                 include: [refetchQuerie],
               });
-              // await client.refetchQueries({
-              //   include: [refetchQuerie],
-              // });
+              handlePage(1); // reset page
               setLoading(() => false);
             }}
           >

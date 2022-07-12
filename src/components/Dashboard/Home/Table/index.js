@@ -54,6 +54,7 @@ const Table = () => {
       const limit = 2; // quantidade de registros por página
       if (data?.schedules.length) {
         const currentPage = Math.ceil(data?.schedules.length / limit);
+        console.log(currentPage);
         setPage(() => (currentPage === 0 ? 1 : currentPage));
         setCachedPage(() => true);
       }
