@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setService, setDate } from "../../../../../store/tableFilterSlice";
 import { useQuery } from "@apollo/client";
@@ -8,6 +8,7 @@ import { GET_SERVICES } from "../../../../../graphql/schemas/services";
 const SCHEMA = GET_SERVICES("_id", "name", "price");
 
 const FilterModal = ({ closeModal, setPage }) => {
+  const modalRef = useRef();
   const dispatch = useDispatch();
   const { service, date } = useSelector((state) => state.tableFilter);
   const { data, loading, error } = useQuery(SCHEMA);
@@ -28,9 +29,22 @@ const FilterModal = ({ closeModal, setPage }) => {
     [dispatch, setPage]
   );
 
+  useEffect(() => {
+    // close modal when click outside of it
+    const handleCloseModal = (event) => {
+      if (!modalRef.current.contains(event.target)) {
+        closeModal();
+      }
+    };
+    document.addEventListener("mousedown", handleCloseModal);
+    return () => {
+      document.removeEventListener("mousedown", handleCloseModal);
+    };
+  }, [closeModal]);
+
   return (
     <>
-      <div className='filter-modal' onClick={(e) => e.stopPropagation()}>
+      <div className='filter-modal' ref={modalRef}>
         <div className='header'>
           <span>Filtros</span>
           <button onClick={() => closeModal(() => false)}>
@@ -86,7 +100,7 @@ const FilterModal = ({ closeModal, setPage }) => {
           right: 0;
           height: 24px;
           width: 24px;
-          animation: slide 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+          animation: slide 0.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
           overflow: hidden;
           background: #fff;
           border: var(--gray-border);

@@ -37,17 +37,12 @@ const CreateSchedule = ({ closeCreator }) => {
             date: new Date(`${date.current.value} ${time.current.value}`),
           },
         },
-        update: (cache, { data: { createSchedule } }) => {
-          const { schedules } = cache.readQuery({
+        refetchQueries: [
+          {
             query: GET_SCHEDULES(...SCHEMA),
-          });
-          cache.writeQuery({
-            query: GET_SCHEDULES(...SCHEMA),
-            data: {
-              schedules: [createSchedule, ...schedules],
-            },
-          });
-        },
+            variables: { service: "all", date: "" },
+          },
+        ],
         onCompleted: () => closeCreator(),
         onError: (error) => console.log(error.message),
       });

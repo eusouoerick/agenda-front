@@ -121,11 +121,13 @@ const AsideMenu = () => {
           gap: 20px;
           text-decoration: none;
           color: #fff;
+          transition: color 0.15s ease-in-out;
         }
         .item-focus {
           color: var(--text-color-primary);
           background-color: var(--dashboard-aside-background);
           border-radius: 9999px;
+          transition: all 0.15s ease-in;
         }
         .icon {
           font-size: 24px;

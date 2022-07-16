@@ -1,11 +1,10 @@
 import { useCallback, useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { useQuery, useMutation } from "@apollo/client";
-import { GET_SCHEDULES, DELETE_SCHEDULE } from "../../../../graphql/schemas/schedules";
-import { format } from "date-fns";
-import classnames from "classnames";
+import { useSelector } from "react-redux";
+import { useQuery } from "@apollo/client";
+import { GET_SCHEDULES } from "../../../../graphql/schemas/schedules";
 
 import HeaderTable from "./Header";
+import TableItem from "./TableItem";
 
 // get-fields - https://github.com/eusouoerick/get-fields
 const SCHEMA = GET_SCHEDULES(
@@ -19,8 +18,7 @@ const SCHEMA = GET_SCHEDULES(
 const Table = () => {
   const { service, status, date } = useSelector((state) => state.tableFilter);
   const [page, setPage] = useState(1);
-  const [cachedPage, setCachedPage] = useState(false); // impede que ocorra uma busca repetida na pagina atual
-  const [deleteSchedule] = useMutation(DELETE_SCHEDULE);
+  const [cachedPage, setCachedPage] = useState(false); // impede que ocorra uma busca repetida na pagina
   const { data, loading, error, fetchMore } = useQuery(SCHEMA, {
     variables: { page: 1, service, date },
   });
@@ -30,31 +28,12 @@ const Table = () => {
     setPage((state) => page || state + 1);
   }, []);
 
-  const handleDelete = useCallback(
-    async (id) => {
-      await deleteSchedule({
-        variables: { id },
-        update(cache) {
-          const { schedules } = cache.readQuery({ query: SCHEMA });
-          cache.writeQuery({
-            query: SCHEMA,
-            data: {
-              schedules: schedules.filter((schedule) => schedule._id !== id),
-            },
-          });
-        },
-      });
-    },
-    [deleteSchedule]
-  );
-
   useEffect(() => {
     // Deixa paginação sincronizada com o cache do Apollo
     if (page <= 1) {
-      const limit = 2; // quantidade de registros por página
+      const limit = 2; // quantidade de registros por página - valor do backend
       if (data?.schedules.length) {
         const currentPage = Math.ceil(data?.schedules.length / limit);
-        console.log(currentPage);
         setPage(() => (currentPage === 0 ? 1 : currentPage));
         setCachedPage(() => true);
       }
@@ -85,7 +64,7 @@ const Table = () => {
     <div>
       <HeaderTable handlePage={handlePage} refetchQuerie={SCHEMA} setPage={setPage} />
       <button onClick={() => handlePage()}>fetchMore</button>
-      <table>
+      <table style={{ borderBottom: data?.schedules.length > 0 ? "none" : null }}>
         <thead>
           <tr>
             <th>Author</th>
@@ -99,42 +78,8 @@ const Table = () => {
         </thead>
         <tbody>
           {data?.schedules?.map((item) => {
-            if (status.includes(item.status)) {
-              return (
-                <tr key={item._id}>
-                  <td className='focus'>{item.createdBy.name}</td>
-                  <td className='blur'>{item.createdBy.contact}</td>
-                  <td>{item.service.name}</td>
-                  <td style={{ padding: "10px 0" }}>
-                    <span
-                      style={{ textTransform: "capitalize" }}
-                      className={classnames("status", {
-                        completed: item.status === "completed",
-                        cancelled: item.status === "cancelled",
-                      })}
-                    >
-                      {item.status}
-                    </span>
-                  </td>
-                  <td className='blur align-itens'>
-                    <span>
-                      {format(new Date(item.date), "H") +
-                        "h" +
-                        (+format(new Date(item.date), "mm") || "")}
-                    </span>
-                    <span className=''>
-                      {format(new Date(item.date), "dd/MM/yyyy")}
-                    </span>
-                  </td>
-                  <td>R$ {item.service.price.toString().replace(".", ",")}</td>
-                  <td>
-                    <button className='delete' onClick={() => handleDelete(item._id)}>
-                      <span className='material-icons'>close</span>
-                    </button>
-                  </td>
-                </tr>
-              );
-            }
+            if (status.includes(item.status))
+              return <TableItem item={item} key={item._id} />;
           })}
         </tbody>
       </table>
@@ -158,55 +103,10 @@ const Table = () => {
           line-height: 18px;
           letter-spacing: 0.02em;
         }
-        th,
-        td {
+        th {
           display: table-cell;
           text-align: center;
           padding: 15px 10px;
-        }
-        td {
-          border-bottom: var(--gray-border);
-        }
-        .focus {
-          font-weight: bold;
-          text-transform: capitalize;
-        }
-        .blur {
-          color: hsla(337, 7%, 36%, 1);
-        }
-        .status {
-          min-width: 98px;
-          font-size: 13px;
-          font-weight: 600;
-          border-radius: 9999px;
-          padding: 6px 15px;
-          background-color: var(--pending-background);
-          color: var(--color-pending);
-        }
-        .status.completed {
-          background-color: var(--completed-background);
-          color: var(--color-completed);
-        }
-        .status.cancelled {
-          background-color: var(--cancelled-background);
-          color: var(--color-cancelled);
-        }
-        button.delete {
-          padding: 0px;
-          width: 100%;
-          height: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: hsla(337, 7%, 36%, 1);
-        }
-        button.delete:hover {
-          color: var(--color-cancelled);
-        }
-        td.align-itens {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
         }
       `}</style>
     </div>

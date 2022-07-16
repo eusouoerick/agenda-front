@@ -6,9 +6,8 @@
 
 - Home
   - ? filtrar registros por status no backend
-  - limpar o cache quando usar o refetch
   - scroll infinito
-  - usar React.memo para otimizar o código
+  - fazer efeitos de loading
 
 ## Login / Signup:
 
