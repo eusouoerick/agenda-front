@@ -5,6 +5,8 @@ import { GET_SCHEDULES } from "../../../../graphql/schemas/schedules";
 
 import HeaderTable from "./Header";
 import TableItem from "./TableItem";
+import NoItems from "../NoItems";
+import ThreeDotsLoading from "./ThreeDotsLoading";
 
 // get-fields - https://github.com/eusouoerick/get-fields
 const SCHEMA = GET_SCHEDULES(
@@ -19,8 +21,9 @@ const Table = () => {
   const { service, status, date } = useSelector((state) => state.tableFilter);
   const [page, setPage] = useState(1);
   const [cachedPage, setCachedPage] = useState(false); // impede que ocorra uma busca repetida na pagina
-  const { data, loading, error, fetchMore } = useQuery(SCHEMA, {
+  const { data, error, fetchMore, networkStatus } = useQuery(SCHEMA, {
     variables: { page: 1, service, date },
+    notifyOnNetworkStatusChange: true,
   });
 
   const handlePage = useCallback((page) => {
@@ -31,7 +34,7 @@ const Table = () => {
   useEffect(() => {
     // Deixa paginação sincronizada com o cache do Apollo
     if (page <= 1) {
-      const limit = 2; // quantidade de registros por página - valor do backend
+      const limit = 5; // quantidade de registros por página - valor do backend
       if (data?.schedules.length) {
         const currentPage = Math.ceil(data?.schedules.length / limit);
         setPage(() => (currentPage === 0 ? 1 : currentPage));
@@ -62,27 +65,49 @@ const Table = () => {
   if (error) return <p>Error : {error.message}</p>;
   return (
     <div>
-      <HeaderTable handlePage={handlePage} refetchQuerie={SCHEMA} setPage={setPage} />
-      <button onClick={() => handlePage()}>fetchMore</button>
-      <table style={{ borderBottom: data?.schedules.length > 0 ? "none" : null }}>
-        <thead>
-          <tr>
-            <th>Author</th>
-            <th>Contact</th>
-            <th>Serviço</th>
-            <th>Status</th>
-            <th>Date</th>
-            <th>Price</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {data?.schedules?.map((item) => {
-            if (status.includes(item.status))
-              return <TableItem item={item} key={item._id} />;
-          })}
-        </tbody>
-      </table>
+      {networkStatus === 1 ? (
+        <ThreeDotsLoading />
+      ) : (
+        <>
+          <HeaderTable
+            handlePage={handlePage}
+            refetchQuerie={SCHEMA}
+            setPage={setPage}
+          />
+          
+          {!data?.schedules.length && networkStatus !== 2 ? (
+            <NoItems />
+          ) : (
+            <table style={{ borderBottom: data?.schedules.length ? "none" : null }}>
+              <thead>
+                <tr>
+                  <th>Author</th>
+                  <th>Contact</th>
+                  <th>Serviço</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                  <th>Price</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {data?.schedules?.map((item, index) => {
+                  if (status.includes(item.status))
+                    return (
+                      <TableItem
+                        item={item}
+                        key={item._id}
+                        req={index + 1 === data.schedules.length}
+                        handlePage={handlePage}
+                      />
+                    );
+                })}
+              </tbody>
+            </table>
+          )}
+          {(networkStatus === 3 || networkStatus === 2) && <ThreeDotsLoading />}
+        </>
+      )}
 
       <style jsx>{`
         table {

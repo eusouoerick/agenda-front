@@ -5,7 +5,10 @@ import removeAllRefs from "../../../../graphql/removeAllRefs";
 import classnames from "classnames";
 import { format } from "date-fns";
 
-const TableItem = ({ item }) => {
+// componente de paginação
+import { Waypoint } from "react-waypoint";
+
+const TableItem = ({ item, req, handlePage }) => {
   const [deleteSchedule] = useMutation(DELETE_SCHEDULE);
 
   const handleDelete = useCallback(
@@ -51,6 +54,7 @@ const TableItem = ({ item }) => {
           <button className='delete' onClick={() => handleDelete(item._id)}>
             <span className='material-icons'>close</span>
           </button>
+          {req && <Waypoint onEnter={() => handlePage()} />}
         </td>
       </tr>
 

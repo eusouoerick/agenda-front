@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { resetState } from "../../../../../store/tableFilterSlice";
+import { setCreateScheduleOpen } from "../../../../../store/dashboardSlice";
 import client from "../../../../../graphql/ApolloConfig";
 import classnames from "classnames";
 
@@ -11,22 +12,23 @@ import FilterModal from "./FilterModal";
 const HeaderTable = ({ handlePage, refetchQuerie, setPage }) => {
   const dispatch = useDispatch();
   const { service, status, date } = useSelector((state) => state.tableFilter);
+  const { createScheduleOpen, noItems } = useSelector((state) => state.dashboard);
   const [loading, setLoading] = useState(false);
-  const [createOpen, setCreateOpen] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
 
   const toggleFilterVisibility = useCallback(() => {
-    setCreateOpen((state) => !state);
-  }, []);
+    dispatch(setCreateScheduleOpen());
+  }, [dispatch]);
 
   const resetFilter = useCallback(() => {
     dispatch(resetState());
+    handlePage(1);
     setPage(1);
   }, [dispatch, setPage]);
 
   return (
     <>
-      {createOpen && (
+      {createScheduleOpen && (
         <WindowBlur setChildrenState={toggleFilterVisibility}>
           <CreateSchedule closeCreator={toggleFilterVisibility} />
         </WindowBlur>
@@ -60,9 +62,11 @@ const HeaderTable = ({ handlePage, refetchQuerie, setPage }) => {
               {date || service !== "all" || status.length !== 3 ? (
                 <button onClick={resetFilter}>Remover filtros</button>
               ) : null}
-              <button onClick={() => setFilterOpen(() => true)}>
-                <span className='material-icons'>sort</span>
-              </button>
+              {!noItems && (
+                <button onClick={() => setFilterOpen(() => true)}>
+                  <span className='material-icons'>sort</span>
+                </button>
+              )}
             </>
           )}
         </div>

@@ -20,8 +20,6 @@ export default function Home() {
 
   return (
     <div className='container'>
-      {/* colocar dentro do componente que vai gerar a ação
-        {windowBlur && <WindowBlur></WindowBlur>} */}
       <Header />
       <main>
         <FirstContent />

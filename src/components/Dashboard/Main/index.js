@@ -7,6 +7,7 @@ import Header from "../Header";
 import AsideMenu from "../AsideMenu";
 
 // Este componente é responsável por organizar o layout da páginas do dashboard
+// e por verificar se o usuário está logado
 // No _app.js ele é chamado como <Dashboard>
 const Main = ({ children }) => {
   const router = useRouter();
@@ -37,7 +38,7 @@ const Main = ({ children }) => {
     return (
       <>
         <AsideMenu />
-        <div style={{ width: "100%", overflow: "auto" }}>
+        <div style={{ width: "100%", overflow: "auto", background: "#e7e7e7" }}>
           <Header />
           <main id='main'>{children}</main>
         </div>

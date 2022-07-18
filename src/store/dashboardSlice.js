@@ -16,6 +16,8 @@ const dashboardSlice = createSlice({
     asideMenuPages,
     asideMenuOpen: false,
     currentPage: "Home",
+    createScheduleOpen: false,
+    noItems: false,
   },
   reducers: {
     setAsideMenuOpen: (state) => {
@@ -26,8 +28,15 @@ const dashboardSlice = createSlice({
         state.currentPage = payload;
       }
     },
+    setCreateScheduleOpen: (state) => {
+      state.createScheduleOpen = !state.createScheduleOpen;
+    },
+    setNoItems: (state, { payload }) => {
+      state.noItems = payload;
+    },
   },
 });
 
-export const { setAsideMenuOpen, setCurrentPage } = dashboardSlice.actions;
+export const { setAsideMenuOpen, setCurrentPage, setCreateScheduleOpen, setNoItems } =
+  dashboardSlice.actions;
 export default dashboardSlice.reducer;

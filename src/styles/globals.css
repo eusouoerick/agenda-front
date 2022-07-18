@@ -31,7 +31,8 @@
   --cancelled-background: hsla(356, 100%, 98%, 1);
   --cancelled-border: hsl(0deg 100% 88%);
   
-  --gray-border: 1px solid #e6e6e6;
+  --gray-border: 1px solid #dfdfdf;
+  /* --gray-border: 1px solid #e6e6e6; */
 }
 
 
@@ -86,7 +87,8 @@ h1 {
 
 .dashboard-container {
   display: flex;
-  background: #F5F6F9;
+  background-color: #F5F6F9;
+  /* background: #e1e1e1; */
   width: 100vw;
   height: 100vh;
 }
