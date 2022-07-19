@@ -1,12 +1,12 @@
 import { useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { resetState } from "../../../../../store/tableFilterSlice";
-import { setCreateScheduleOpen } from "../../../../../store/dashboardSlice";
-import client from "../../../../../graphql/ApolloConfig";
+import { resetState } from "../../../../store/tableFilterSlice";
+import { setCreateScheduleOpen } from "../../../../store/dashboardSlice";
+import client from "../../../../graphql/ApolloConfig";
 import classnames from "classnames";
 
-import WindowBlur from "../../../../windowBlur";
-import CreateSchedule from "../../../../CreateSchedule";
+import WindowBlur from "../../../windowBlur";
+import CreateSchedule from "../../../CreateSchedule";
 import FilterModal from "./FilterModal";
 
 const HeaderTable = ({ handlePage, refetchQuerie, setPage }) => {

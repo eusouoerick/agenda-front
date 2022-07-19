@@ -13,15 +13,14 @@
 - Dashboard
   - error nas cores do background
   - CreateSchedule
+    - escolher como o agendamento será feito
     - atualizar a pagina atual se a data e o serviço forem iguais a do filtro
   - header
     - info do usuario (nome)
     - mensagens
     - função de editar perfil
   - Home 1
-    - escolher como o agendamento será feito
     - ? filtrar registros por status no backend
-    - criar um componente table
   - graphs 4
     - agendamentos
     - dinheiro
@@ -31,3 +30,4 @@
     - ver infos de contato de um usuario
   - servicos 2
     - criar agendamento ao clicar no serviço
+    - usar display grid 

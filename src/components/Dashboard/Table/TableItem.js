@@ -1,7 +1,7 @@
 import { memo, useCallback } from "react";
 import { useMutation } from "@apollo/client";
-import { DELETE_SCHEDULE } from "../../../../graphql/schemas/schedules";
-import removeAllRefs from "../../../../graphql/removeAllRefs";
+import { DELETE_SCHEDULE } from "../../../graphql/schemas/schedules";
+import removeAllRefs from "../../../graphql/removeAllRefs";
 import classnames from "classnames";
 import { format } from "date-fns";
 

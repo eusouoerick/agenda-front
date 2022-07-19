@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setService, setDate } from "../../../../../store/tableFilterSlice";
+import { setService, setDate } from "../../../../store/tableFilterSlice";
 import { useQuery } from "@apollo/client";
 import BtnStatus from "./BtnStatus";
 
-import { GET_SERVICES } from "../../../../../graphql/schemas/services";
+import { GET_SERVICES } from "../../../../graphql/schemas/services";
 const SCHEMA = GET_SERVICES("_id", "name", "price");
 
 const FilterModal = ({ closeModal, handlePage }) => {

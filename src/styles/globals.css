@@ -30,9 +30,9 @@
   --color-cancelled: hsla(0, 100%, 50%, 1);
   --cancelled-background: hsla(356, 100%, 98%, 1);
   --cancelled-border: hsl(0deg 100% 88%);
-  
-  --gray-border: 1px solid #dfdfdf;
-  /* --gray-border: 1px solid #e6e6e6; */
+
+  /* --gray-border: 1px solid #dfdfdf; */
+  --gray-border: 1px solid #e6e6e6;
 }
 
 
@@ -41,7 +41,6 @@
   font-family: "Inter", BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   box-sizing: border-box;
-
 }
 
 html {

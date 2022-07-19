@@ -1,4 +1,4 @@
-const Graphs = () => {
+const GraphsPage = () => {
   return (
     <>
       <h1>Graphs</h1>
@@ -6,4 +6,4 @@ const Graphs = () => {
   );
 };
 
-export default Graphs;
+export default GraphsPage;

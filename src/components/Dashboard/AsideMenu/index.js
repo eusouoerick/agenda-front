@@ -125,9 +125,9 @@ const AsideMenu = () => {
         }
         .item-focus {
           color: var(--text-color-primary);
-          background-color: var(--dashboard-aside-background);
+          /* background-color: var(--dashboard-aside-background); */
           border-radius: 9999px;
-          transition: all 0.15s ease-in;
+          transition: all 0.15s linear;
         }
         .icon {
           font-size: 24px;

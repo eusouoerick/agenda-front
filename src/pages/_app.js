@@ -5,7 +5,7 @@ import store from "../store";
 import classNames from "classnames";
 import "../styles/globals.css";
 
-import Dashboard from "../components/Dashboard/Main";
+import Dashboard from "../components/Dashboard";
 
 function MyApp({ Component, pageProps }) {
   return (

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { setCreateScheduleOpen, setNoItems } from "../../../../store/dashboardSlice";
+import { setCreateScheduleOpen, setNoItems } from "../../../store/dashboardSlice";
 
 const NoItems = () => {
   const dispatch = useDispatch();

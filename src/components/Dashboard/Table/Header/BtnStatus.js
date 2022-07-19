@@ -1,6 +1,6 @@
 import { useState, useCallback, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setStatus } from "../../../../../store/tableFilterSlice";
+import { setStatus } from "../../../../store/tableFilterSlice";
 import classNames from "classnames";
 
 const BtnStatus = ({ name }) => {
