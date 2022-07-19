@@ -1,11 +1,9 @@
 # TODO
 
 - Redux
-
   - remover o settingsSlice
 
 - Home
-
   - está movendo quando abre o login
   - remover o calendario e usar a api do google maps e colocar mais info ao lado
   - Login / Signup

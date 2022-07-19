@@ -23,8 +23,8 @@ const HeaderTable = ({ handlePage, refetchQuerie, setPage }) => {
   const resetFilter = useCallback(() => {
     dispatch(resetState());
     handlePage(1);
-    setPage(1);
-  }, [dispatch, setPage]);
+    // setPage(1);
+  }, [dispatch, handlePage]);
 
   return (
     <>
@@ -56,7 +56,7 @@ const HeaderTable = ({ handlePage, refetchQuerie, setPage }) => {
         </div>
         <div className='btns-right'>
           {filterOpen ? (
-            <FilterModal closeModal={setFilterOpen} setPage={setPage} />
+            <FilterModal closeModal={setFilterOpen} handlePage={handlePage} />
           ) : (
             <>
               {date || service !== "all" || status.length !== 3 ? (

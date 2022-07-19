@@ -7,7 +7,7 @@ import BtnStatus from "./BtnStatus";
 import { GET_SERVICES } from "../../../../../graphql/schemas/services";
 const SCHEMA = GET_SERVICES("_id", "name", "price");
 
-const FilterModal = ({ closeModal, setPage }) => {
+const FilterModal = ({ closeModal, handlePage }) => {
   const modalRef = useRef();
   const dispatch = useDispatch();
   const { service, date } = useSelector((state) => state.tableFilter);
@@ -15,18 +15,18 @@ const FilterModal = ({ closeModal, setPage }) => {
 
   const selectService = useCallback(
     (id) => {
-      setPage(() => 1);
+      handlePage(1);
       dispatch(setService(id));
     },
-    [dispatch, setPage]
+    [dispatch, handlePage]
   );
 
   const selectDate = useCallback(
     (date) => {
-      setPage(() => 1);
+      handlePage(1);
       dispatch(setDate(date));
     },
-    [dispatch, setPage]
+    [dispatch, handlePage]
   );
 
   useEffect(() => {

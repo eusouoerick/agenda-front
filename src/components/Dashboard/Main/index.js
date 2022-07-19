@@ -15,15 +15,14 @@ const Main = ({ children }) => {
   const { loading, _id } = useSelector((state) => state.user);
 
   useEffect(() => {
-    const check = async () => {
+    (async () => {
       const token = localStorage.getItem("token");
       if (token && !_id) {
         await dispatch(getUser());
       } else if (!token) {
         router.push("/");
       }
-    };
-    check();
+    })();
   }, [_id, dispatch, router]);
 
   useEffect(() => {
