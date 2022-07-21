@@ -5,37 +5,31 @@ import { setCreateScheduleOpen } from "../../../../store/dashboardSlice";
 import client from "../../../../graphql/ApolloConfig";
 import classnames from "classnames";
 
-import WindowBlur from "../../../windowBlur";
 import CreateSchedule from "../../../CreateSchedule";
 import FilterModal from "./FilterModal";
 
-const HeaderTable = ({ handlePage, refetchQuerie, setPage }) => {
+const HeaderTable = ({ handlePage, refetchQuerie }) => {
   const dispatch = useDispatch();
   const { service, status, date } = useSelector((state) => state.tableFilter);
   const { createScheduleOpen, noItems } = useSelector((state) => state.dashboard);
   const [loading, setLoading] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
 
-  const toggleFilterVisibility = useCallback(() => {
+  const toogleCreator = useCallback(() => {
     dispatch(setCreateScheduleOpen());
   }, [dispatch]);
 
   const resetFilter = useCallback(() => {
     dispatch(resetState());
     handlePage(1);
-    // setPage(1);
   }, [dispatch, handlePage]);
 
   return (
     <>
-      {createScheduleOpen && (
-        <WindowBlur setChildrenState={toggleFilterVisibility}>
-          <CreateSchedule closeCreator={toggleFilterVisibility} />
-        </WindowBlur>
-      )}
+      {createScheduleOpen && <CreateSchedule closeCreator={toogleCreator} />}
       <div className='table-header'>
         <div className='btns-left'>
-          <button onClick={toggleFilterVisibility}>
+          <button onClick={toogleCreator}>
             Agendar dia
             <span className='material-icons' style={{ marginLeft: 3 }}>
               add

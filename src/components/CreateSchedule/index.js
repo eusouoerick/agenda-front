@@ -4,6 +4,8 @@ import { format } from "date-fns";
 import { GET_SERVICES } from "../../graphql/schemas/services";
 import { CREATE_SCHEDULE, GET_SCHEDULES } from "../../graphql/schemas/schedules";
 
+import WindowBlur from "../windowBlur";
+
 // get-fields - https://github.com/eusouoerick/get-fields
 const SCHEMA = [
   "_id",
@@ -13,7 +15,7 @@ const SCHEMA = [
   "status",
 ];
 
-const CreateSchedule = ({ closeCreator }) => {
+const CreateSchedule = ({ closeCreator, selectedService }) => {
   const date = useRef();
   const time = useRef();
   const service = useRef();
@@ -51,7 +53,7 @@ const CreateSchedule = ({ closeCreator }) => {
   );
 
   return (
-    <>
+    <WindowBlur setChildrenState={closeCreator}>
       <form className='form' onSubmit={handleSubmit}>
         {true && <span className='error'>{createError?.message}</span>}
         <div className='fc'>
@@ -88,8 +90,15 @@ const CreateSchedule = ({ closeCreator }) => {
           </div>
           <div className='input-area services-area'>
             <label htmlFor='services'>Serviço</label>
-            <select ref={service} className='input' name='services' id='services'>
-              <option value='' defaultChecked style={{ color: "transparent" }}>
+            <select
+              ref={service}
+              className='input'
+              name='services'
+              id='services'
+              required
+              defaultValue={selectedService || undefined}
+            >
+              <option value='' style={{ color: "transparent" }}>
                 Selecionar
               </option>
               {data?.services.map((item) => (
@@ -138,6 +147,11 @@ const CreateSchedule = ({ closeCreator }) => {
           align-items: center;
           gap: 10px;
         }
+        label {
+          font-size: 14px;
+          font-weight: bold;
+          color: #444;
+        }
         .input {
           width: 100%;
           height: 40px;
@@ -153,6 +167,9 @@ const CreateSchedule = ({ closeCreator }) => {
         }
         .services-area {
           width: 270px;
+        }
+        #services {
+          font-size: 14px;
         }
         .btns {
           margin-top: 10px;
@@ -173,7 +190,7 @@ const CreateSchedule = ({ closeCreator }) => {
           cursor: pointer;
         }
       `}</style>
-    </>
+    </WindowBlur>
   );
 };
 

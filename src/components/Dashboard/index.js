@@ -9,8 +9,8 @@ import AsideMenu from "./AsideMenu";
 
 // Este componente é responsável por organizar o layout da páginas do dashboard
 // e por verificar se o usuário está logado
-// No _app.js ele é chamado como <Dashboard>
-const Main = ({ children }) => {
+// ~> _app.js
+const Dashboard = ({ children }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { loading, _id } = useSelector((state) => state.user);
@@ -65,4 +65,4 @@ const Main = ({ children }) => {
   }
 };
 
-export default Main;
+export default Dashboard;

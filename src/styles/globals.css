@@ -13,6 +13,13 @@
   --text-color-primary: hsl(120deg 100% 73%);
   --dashboard-aside-background: hsl(120deg 70% 50% / 20%); */
 
+  /* Laranja */
+  /* --color-primary: hsl(0, 70%, 50%);
+  --color-primary-light: hsl(0, 70%, 70%);
+  --color-primary-dark: hsl(0, 70%, 30%);
+  --text-color-primary: hsl(0 100% 64%);
+  --dashboard-aside-background: hsl(0 70% 50% / 20%); */
+  
   /* Rosa */
   --color-primary: hsl(337, 70%, 50%);
   --color-primary-light: hsl(337, 70%, 70%);
@@ -87,7 +94,6 @@ h1 {
 .dashboard-container {
   display: flex;
   background-color: #F5F6F9;
-  /* background: #e1e1e1; */
   width: 100vw;
   height: 100vh;
 }

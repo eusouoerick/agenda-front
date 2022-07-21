@@ -1,109 +1,36 @@
+import { useQuery } from "@apollo/client";
+import { GET_SERVICES } from "../../graphql/schemas/services";
+import { useSelector } from "react-redux";
+
+import ThreeDotsLoading from "../../components/ThreeDotsLoading";
+import CreateService from "../../components/Dashboard/services/CreateService";
+import Card from "../../components/Dashboard/services/Card";
+
 const ServicesPage = () => {
+  const { data, loading, error } = useQuery(
+    GET_SERVICES("_id", "name", "price", "description")
+  );
+  const { adm } = useSelector((state) => state.user);
+
+  if (loading) return <ThreeDotsLoading />;
+  if (error) return <p>Error: {error.message}</p>;
   return (
     <>
       <div className='c'>
-        <div className='service'>
-          <div className='align'>
-            <span className='name'>Spa Estética Corporal Especial</span>
-            <span className='price'>R$ 356,00</span>
-          </div>
-          <span className='desc'>
-            Este tipo vai ajudar a combater edemas e eliminar as toxinas e substâncias
-            nocivas do seu organismo, durante um dia tranquilo de cuidados
-          </span>
-          <button>Agendar serviço</button>
-        </div>
-        <div className='service'>
-          <div className='align'>
-            <span className='name'>Spa Estética Corporal Especial</span>
-            <span className='price'>R$ 356,00</span>
-          </div>
-          <span className='desc'>
-            Este tipo vai ajudar a combater edemas e eliminar as toxinas e substâncias
-            nocivas do seu organismo, durante um dia tranquilo de cuidados
-          </span>
-          <button>Agendar serviço</button>
-        </div>
-        <div className='service'>
-          <div className='align'>
-            <span className='name'>Spa Estética Corporal Especial</span>
-            <span className='price'>R$ 356,00</span>
-          </div>
-          <span className='desc'>
-            Este tipo vai ajudar a combater edemas e eliminar as toxinas e substâncias
-            nocivas do seu organismo, durante um dia tranquilo de cuidados
-          </span>
-          <button>Agendar serviço</button>
-        </div>
-        <div className='service'>
-          <div className='align'>
-            <span className='name'>Spa Estética Corporal Especial</span>
-            <span className='price'>R$ 356,00</span>
-          </div>
-          <span className='desc'>
-            Este tipo vai ajudar a combater edemas e eliminar as toxinas e substâncias
-            nocivas do seu organismo, durante um dia tranquilo de cuidados
-          </span>
-          <button>Agendar serviço</button>
-        </div>
+        {adm && <CreateService />}
+        {data?.services?.map((item) => (
+          <Card key={item._id} item={item} adm={adm} />
+        ))}
       </div>
 
       <style jsx>{`
         .c {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 20px;
-        }
-        .service {
-          display: flex;
-          align-items: center;
-          flex-direction: column;
-          justify-content: space-between;
-          width: 240px;
-          height: 300px;
-          padding: 20px;
-          background: #fff;
-          border: var(--gray-border);
-          border-radius: 4px;
-        }
-        .service:hover {
-          border-color: #bfbfbf;
-        }
-        .align {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 10px;
-        }
-        .name {
-          text-align: center;
-          color: var(--color-primary);
-          font-size: 20px;
-          font-weight: bold;
-        }
-        .price {
-          font-size: 18px;
-          color: #303030;
-        }
-        .desc {
-          text-align: center;
-          font-size: 14px;
-          color: #303030;
-        }
-
-        button {
-          justify-self: flex-end;
-          background: var(--color-primary);
-          color: #fff;
-          border: none;
-          border-radius: 5px;
-          padding: 8px 10px ;
-          font-size: 14px;
-          cursor: pointer;
-          transition: background 0.2s;
-        }
-        button:hover {
-          background: var(--color-primary-dark);
+          width: 100%;
+          max-width: 1200px;
+          display: grid;
+          justify-content: center;
+          grid-template-columns: repeat(auto-fit, minmax(240px, 240px));
+          grid-gap: 20px;
         }
       `}</style>
     </>

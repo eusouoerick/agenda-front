@@ -30,4 +30,3 @@
     - ver infos de contato de um usuario
   - servicos 2
     - criar agendamento ao clicar no serviço
-    - usar display grid 

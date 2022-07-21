@@ -1,14 +1,16 @@
 import { useCallback, useState, useEffect, useMemo } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { resetState } from "../../store/tableFilterSlice";
 import { useQuery } from "@apollo/client";
 import { GET_SCHEDULES } from "../../graphql/schemas/schedules";
 
 import HeaderTable from "../../components/Dashboard/Table/Header";
 import Table from "../../components/Dashboard/Table/Table";
 import NoItems from "../../components/Dashboard/Table//NoItems";
-import ThreeDotsLoading from "../../components/Dashboard/Table//ThreeDotsLoading";
+import ThreeDotsLoading from "../../components/ThreeDotsLoading";
 
 const TablePage = () => {
+  const dispatch = useDispatch();
   const { service, date } = useSelector((state) => state.tableFilter);
   const [page, setPage] = useState(1);
   const [cachedPage, setCachedPage] = useState(false); // impede que ocorra uma busca repetida na pagina
@@ -46,6 +48,12 @@ const TablePage = () => {
       }
     }
   }, [page, data]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetState());
+    };
+  }, [dispatch]);
 
   useEffect(() => {
     if (page !== 1 && !cachedPage) {
