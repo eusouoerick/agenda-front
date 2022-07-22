@@ -13,11 +13,21 @@ export const LOGIN = gql`
   }
 `;
 
+export const GET_ALL_USERS = (...args) => {
+  const fields = getFields(args);
+  return gql`
+    query{
+      users {
+        ${fields}
+      }
+    }`;
+};
+
 export const GET_USER = (...args) => {
   const fields = getFields(args);
   return gql`
-    query GetUser {
-      getUser {
+    query GetUser($id: ID) {
+      getUser(id: $id) {
        ${fields}
       }
     }

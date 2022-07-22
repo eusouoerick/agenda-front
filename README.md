@@ -26,7 +26,4 @@
     - dinheiro
     - serviços mais pedidos
   - usuarios 3
-    - quando clicar vai abrir um modal com os agendamentos do usuario
-    - ver infos de contato de um usuario
-  - servicos 2
-    - criar agendamento ao clicar no serviço
+    - 

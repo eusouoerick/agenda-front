@@ -68,7 +68,7 @@ const CreateModal = ({ closeModal }) => {
                     alert: form.name.length > 35,
                   })}
                 >
-                  {form.name.length} / 35
+                  {form.name.length}/35
                 </span>
                 <label htmlFor='name'>Nome</label>
                 <input
@@ -123,7 +123,7 @@ const CreateModal = ({ closeModal }) => {
                     alert: form.description.length > 165,
                   })}
                 >
-                  {form.description.length} / 165
+                  {form.description.length}/165
                 </span>
                 <label htmlFor='description'>Descrição</label>
                 <textarea
