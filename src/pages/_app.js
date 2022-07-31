@@ -5,6 +5,10 @@ import store from "../store";
 import classNames from "classnames";
 import "../styles/globals.css";
 
+import Chart from "chart.js/auto";
+import { CategoryScale } from "chart.js";
+Chart.register(CategoryScale);
+
 import Dashboard from "../components/Dashboard";
 
 function MyApp({ Component, pageProps }) {

@@ -1,5 +1,11 @@
 # TODO
 
+
+!!! Filtro dos agendamentos não tá funcionando
+
+- _404
+
+
 - Redux
   - remover o settingsSlice
 
@@ -11,7 +17,6 @@
     - loading
 
 - Dashboard
-  - error nas cores do background
   - CreateSchedule
     - escolher como o agendamento será feito
     - atualizar a pagina atual se a data e o serviço forem iguais a do filtro
@@ -21,9 +26,3 @@
     - função de editar perfil
   - Home 1
     - ? filtrar registros por status no backend
-  - graphs 4
-    - agendamentos
-    - dinheiro
-    - serviços mais pedidos
-  - usuarios 3
-    - 
