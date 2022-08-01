@@ -27,7 +27,7 @@ const TableItem = ({ item, req, handlePage }) => {
   return (
     <>
       <tr>
-        <td className='focus'>{item.createdBy.name}</td>
+        <td className='focus'>{item.createdBy.name.split(" ")[0]}</td>
         <td className='blur'>{item.createdBy.contact}</td>
         <td>{item.service.name}</td>
         <td style={{ padding: "10px 0" }}>

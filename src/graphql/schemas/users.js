@@ -33,3 +33,14 @@ export const GET_USER = (...args) => {
     }
   `;
 };
+
+export const UPDATE_USER = (...args) => {
+  const fields = getFields(args);
+  return gql`
+    mutation UpdateUser($data: UserInput) {
+      updateUser(data: $data) {
+        ${fields}
+      }
+    }
+  `;
+};

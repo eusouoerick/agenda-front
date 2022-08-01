@@ -19,8 +19,14 @@ const userSlice = createSlice({
     name: "",
     contact: "",
   },
+  reducers: {
+    setUser: (state, action) => {
+      state.name = action.payload.name;
+      state.contact = action.payload.contact;
+    },
+  },
   extraReducers: {
-    [getUser.fulfilled]: (state, action) => ({ ...action.payload, loading: false }),
+    [getUser.fulfilled]: (_, action) => ({ ...action.payload, loading: false }),
     [getUser.rejected]: (state, action) => {
       console.error(action.error.message);
       state.loading = false;
@@ -28,4 +34,5 @@ const userSlice = createSlice({
   },
 });
 
+export const { setUser } = userSlice.actions;
 export default userSlice.reducer;

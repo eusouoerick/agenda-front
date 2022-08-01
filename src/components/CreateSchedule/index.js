@@ -124,7 +124,7 @@ const CreateSchedule = ({ closeCreator, selectedService }) => {
           width: 350px;
           height: 360px;
           background: #fff;
-          border-radius: 6px;
+          border-radius: 4px;
           padding: 10px 25px;
           display: flex;
           flex-direction: column;

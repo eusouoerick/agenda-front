@@ -7,7 +7,7 @@
 
 
 - Redux
-  - remover o settingsSlice
+  - remover o settingsSlice e arrumar tudo q usa windowBlur
 
 - Home
   - está movendo quando abre o login
@@ -16,13 +16,14 @@
     - mensagem de error
     - loading
 
+
 - Dashboard
   - CreateSchedule
     - escolher como o agendamento será feito
     - atualizar a pagina atual se a data e o serviço forem iguais a do filtro
   - header
-    - info do usuario (nome)
-    - mensagens
     - função de editar perfil
   - Home 1
     - ? filtrar registros por status no backend
+  - Graphs
+    Bug nos graficos 1 e 4

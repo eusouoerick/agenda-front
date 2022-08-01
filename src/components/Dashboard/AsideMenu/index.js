@@ -18,7 +18,6 @@ const AsideMenu = () => {
         <title>{currentPage} - Dashboard</title>
       </Head>
       <aside className={classnames({ open: asideMenuOpen })}>
-        <span className='logo'>LOGO</span>
         <button
           className={classnames("btn-expand", { open: asideMenuOpen })}
           onClick={() => dispatch(setAsideMenuOpen())}
@@ -73,6 +72,11 @@ const AsideMenu = () => {
           align-items: center;
           color: #fff;
           padding: 20px 0;
+        }
+        aside::before {
+          content: "";
+          display: block;
+          height: 20px;
         }
         aside.open {
           width: 230px;
