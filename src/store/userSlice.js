@@ -4,10 +4,10 @@ import { print } from "graphql";
 import graphqlAPI from "../graphql/graphqlApi";
 
 export const getUser = createAsyncThunk("user/getUser", async () => {
-  const { getUser } = await graphqlAPI(
+  const { getUser: userData } = await graphqlAPI(
     print(GET_USER("_id", "adm", "name", "contact"))
   );
-  return getUser;
+  return userData;
 });
 
 const userSlice = createSlice({

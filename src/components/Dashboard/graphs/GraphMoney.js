@@ -4,7 +4,7 @@ import { Line } from "react-chartjs-2";
 import ThreeDotsLoading from "../../ThreeDotsLoading";
 
 const SCHEMA = gql`
-  query {
+  query GraphMoney {
     graphMoney {
       name
       count

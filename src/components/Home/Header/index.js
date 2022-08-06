@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setWindowBlur } from "../../../store/settingsSlice";
 import WindowBlur from "../../windowBlur";
 
 import LoginModal from "../../LoginModal";
@@ -10,17 +9,23 @@ const Header = () => {
   // true = login, false = signup
   const [loginLayout, setLoginLayout] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
-  const { windowBlur } = useSelector((state) => state.settings);
-  const dispatch = useDispatch();
 
   const handleClickLogin = () => {
     setLoginModal((state) => !state);
-    dispatch(setWindowBlur());
   };
+
+  // • passar esste useEffect para o componente WindowBlur
+  useEffect(() => {
+    if (loginModal) {
+      document.body.style.overflowY = "hidden";
+    } else {
+      document.body.style.overflowY = "auto";
+    }
+  }, [loginModal]);
 
   return (
     <>
-      {windowBlur && loginModal && (
+      {loginModal && (
         <WindowBlur setChildrenState={setLoginModal}>
           <LoginModal loginLayout={loginLayout} />
         </WindowBlur>
@@ -32,18 +37,13 @@ const Header = () => {
             <nav>
               <ul className='nav'>
                 <li>
-                  <a href='#'>
-                    <span>About us</span>
-                  </a>
-                </li>
-                <li>
                   <a href='#services'>
                     <span>Services</span>
                   </a>
                 </li>
                 <li>
-                  <a href='#calendar'>
-                    <span>Agendar dia</span>
+                  <a href='#about-us'>
+                    <span>About us</span>
                   </a>
                 </li>
               </ul>

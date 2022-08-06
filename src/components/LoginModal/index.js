@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 // redux
 import { useDispatch } from "react-redux";
-import { setWindowBlur } from "../../store/settingsSlice";
 import { getUser } from "../../store/userSlice";
 // graphql
 import { useMutation, useLazyQuery } from "@apollo/client";
@@ -48,7 +47,6 @@ const LoginModal = ({ loginLayout }) => {
       localStorage.setItem("token", token);
       await dispatch(getUser());
       setLoading(() => false);
-      dispatch(setWindowBlur());
       router.push("/dashboard");
     } catch (error) {
       console.error(error);

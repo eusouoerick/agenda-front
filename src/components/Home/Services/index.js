@@ -1,47 +1,62 @@
-const Services = () => {
+import { useRef, useMemo, useEffect, useState } from "react";
+import CardService from "./CardService";
+
+const Services = ({ servicesList }) => {
+  const carousel = useRef(null);
+  const [showBtn, setShowBtn] = useState(null);
+
+  const handleLeftClick = (e) => {
+    e.preventDefault();
+    carousel.current.scrollLeft -= carousel.current.offsetWidth;
+  };
+  const handleRightClick = (e) => {
+    e.preventDefault();
+    carousel.current.scrollLeft += carousel.current.offsetWidth;
+  };
+
+  useEffect(() => {
+    if (carousel.current.offsetWidth >= 1237) {
+      setShowBtn("block");
+    } else {
+      setShowBtn("none");
+    }
+  }, [carousel]);
+
   return (
     <>
       <section className='services'>
         <h2>Serviços</h2>
-        <div className='sv-list'>
-          <div>
-            <h4>Massagens relaxantes</h4>
-            <ul>
-              <li>Massagem relaxante corporal</li>
-              <li>Massagem Anti Álgica</li>
-              <li>Terapia das pedras quentes</li>
-            </ul>
+        <div
+          className='carousel'
+          style={{ justifyContent: showBtn === "none" ? "center" : "space-between" }}
+        >
+          <button
+            className='carousel-btn'
+            style={{ display: showBtn }}
+            onClick={handleLeftClick}
+          >
+            <span className='material-icons'>chevron_left</span>
+          </button>
+          <div className='items' ref={carousel}>
+            {servicesList.map((item) => (
+              <CardService item={item} key={item._id} />
+            ))}
           </div>
-          <div>
-            <h4>Terapias orientais</h4>
-            <ul>
-              <li>Acupuntura Auricular com Cristais Radiônicos</li>
-              <li>Acupuntura Energética com Agulhas</li>
-              <li>Acupuntura sem Agulhas com Cristais</li>
-            </ul>
-          </div>
-          <div>
-            <h4>Fisioterapia</h4>
-            <ul>
-              <li>Hidroterapia</li>
-              <li>Pilates</li>
-              <li>Laser</li>
-            </ul>
-          </div>
-          <div className='btn-container'>
-            <a id='calendar' href='#calendar' className='btn-home sv-btn'>
-              Ver agenda
-            </a>
-          </div>
+          <button
+            className='carousel-btn'
+            style={{ display: showBtn }}
+            onClick={handleRightClick}
+          >
+            <span className='material-icons'>chevron_right</span>
+          </button>
         </div>
       </section>
 
       <style jsx>{`
         .services {
-          background: #e9e9e9;
+          background: #ececed;
           opacity: 0;
           width: 100vw;
-          max-height: 380px;
           padding: 2rem 0;
           display: flex;
           gap: 1rem;
@@ -49,42 +64,65 @@ const Services = () => {
           align-items: center;
           animation: fadeIn 1s cubic-bezier(0.4, 0, 1, 1) forwards;
         }
-        .sv-list {
-          display: grid;
-          grid-template-columns: 1fr 1.1fr;
-          grid-gap: 1.1rem;
+        .carousel {
+          width: 100%;
+          max-width: 2000px;
+          display: flex;
+          align-items: center;
+          padding: 0 15px;
+          gap: 10px;
         }
-        .sv-list ul {
-          margin: 0;
+        .items {
+          display: flex;
+          max-width: 100%;
+          overflow-x: hidden;
+          scroll-behavior: smooth;
+          align-items: center;
+          gap: 10px;
         }
-        .sv-list h4 {
-          margin: 5px 0 10px;
+        .carousel-btn {
+          height: 220px;
+          width: 40px;
+          background: #d9d9d9;
+          border: solid 1px #ccc;
         }
-        .sv-list li {
-          padding: 2px 0;
-        }
-        .sv-list li::marker {
+        .carousel-btn span {
+          font-size: 25px;
+          font-weight: bold;
           color: var(--color-primary);
         }
-        .sv-list .btn-container {
+        .service-card {
           display: flex;
-          justify-content: center;
+          flex-direction: column;
           align-items: center;
+          min-width: 240px;
+          max-width: 240px;
+          height: 300px;
+          background: #fff;
+          border: var(--gray-border);
+          border-radius: 4px;
+          display: flex;
+          align-items: center;
+          padding: 20px;
+          flex-direction: column;
+          justify-content: space-around;
         }
-        .sv-list .sv-btn {
-          text-decoration: none;
-          color: #fff;
-          background: var(--color-primary);
-          border: solid 1px var(--color-primary);
-          transition: border, background 0.15s ease-in-out;
+        .name {
+          text-align: center;
+          color: var(--color-primary);
+          font-size: 20px;
+          font-weight: bold;
         }
-        .sv-list .btn-container .sv-btn:hover {
-          background: var(--color-primary-dark);
-          border-color: var(--color-primary-dark);
+
+        .price {
+          font-size: 18px;
+          font-weight: bold;
+          color: #303030;
         }
-        .sv-list .btn-container a:hover {
-          background: var(--color-primary);
-          color: #fff;
+        .desc {
+          text-align: center;
+          font-size: 14px;
+          color: #303030;
         }
       `}</style>
     </>

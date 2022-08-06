@@ -12,6 +12,17 @@ export const GET_SCHEDULES = (...args) => {
   `;
 };
 
+export const GET_SCHEDULE_BY_ID = (...args) => {
+  const fields = getFields(args);
+  return gql`
+    query GetScheduleById($id: ID!) {
+      getSchedule(id: $id) {
+        ${fields}
+      }
+    }
+  `;
+};
+
 export const CREATE_SCHEDULE = (...args) => {
   const fields = getFields(args);
   return gql`

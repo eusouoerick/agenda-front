@@ -1,33 +1,20 @@
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { gql } from "@apollo/client";
+import { print } from "graphql";
 
 import Header from "../components/Home/Header";
 import FirstContent from "../components/Home/FirstContent";
 import Services from "../components/Home/Services";
+import About from "../components/Home/About";
 import Calendar from "../components/Calendar";
 
-export default function Home() {
-  const { windowBlur } = useSelector((state) => state.settings);
-
-  // • passar esste useEffect para o componente WindowBlur
-  useEffect(() => {
-    if (windowBlur) {
-      document.body.style.overflowY = "hidden";
-    } else {
-      document.body.style.overflowY = "auto";
-    }
-  }, [windowBlur]);
-
+export default function Home({ services }) {
   return (
     <div className='container'>
       <Header />
       <main>
         <FirstContent />
-        <Services />
-        <section className='calendar-container'>
-          <h2 style={{ margin: 0 }}>Agendar dia</h2>
-          <Calendar />
-        </section>
+        <Services servicesList={services} />
+        <About />
       </main>
       <footer>
         <span>by Erick Gabriel</span>
@@ -67,6 +54,33 @@ export default function Home() {
     </div>
   );
 }
+
+export const getStaticProps = async () => {
+  const SCHEMA = gql`
+    query {
+      services {
+        _id
+        name
+        description
+        price
+      }
+    }
+  `;
+  const res = await fetch("http://localhost:4000/graphql", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ query: print(SCHEMA) }),
+  });
+  const { data } = await res.json();
+  return {
+    props: {
+      services: data.services,
+    },
+    revalidate: 600,
+  };
+};
 
 Home.getLayout = (page) => {
   return <>{page}</>;

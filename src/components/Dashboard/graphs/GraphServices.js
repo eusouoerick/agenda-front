@@ -4,7 +4,7 @@ import { Bar } from "react-chartjs-2";
 import ThreeDotsLoading from "../../ThreeDotsLoading";
 
 const SCHEMA = gql`
-  query {
+  query GraphServices {
     graphServices {
       name
       count
@@ -29,7 +29,18 @@ const GraphServices = () => {
           {
             data: counts,
             label: "Serviços mais solicitados",
-            backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f"],
+            backgroundColor: [
+              "#3e95cd",
+              "#8e5ea2",
+              "#3cba9f",
+              "#e8c3b9",
+              "#c45850",
+              "#3e95cd",
+              "#8e5ea2",
+              "#3cba9f",
+              "#e8c3b9",
+              "#c45850",
+            ],
             fill: true,
           },
         ],
