@@ -9,13 +9,7 @@ export default function removeAllRefs(cache, item) {
   removeAll(cache, item);
 }
 
-const SCHEMA = GET_SCHEDULES(
-  "_id",
-  { name: "createdBy", items: ["_id", "name", "contact"] },
-  { name: "service", items: ["_id", "name", "price", "duration"] },
-  "date",
-  "status"
-);
+const SCHEMA = GET_SCHEDULES("_id");
 
 const sameService = (cache, { _id: id, service: { _id: service } }) => {
   try {

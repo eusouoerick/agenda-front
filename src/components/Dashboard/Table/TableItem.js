@@ -1,24 +1,16 @@
 import { memo, useCallback, useState } from "react";
 import { useSelector } from "react-redux";
-import { useMutation, useLazyQuery, gql } from "@apollo/client";
+import { useMutation, gql } from "@apollo/client";
 import classnames from "classnames";
 import { format } from "date-fns";
 import removeAllRefs from "../../../graphql/removeAllRefs";
-import {
-  DELETE_SCHEDULE,
-  GET_SCHEDULE_BY_ID,
-} from "../../../graphql/schemas/schedules";
+import { DELETE_SCHEDULE, UPDATE_SCHEDULE } from "../../../graphql/schemas/schedules";
 
 // componente de paginação
 import { Waypoint } from "react-waypoint";
 
-// graphql schema
-const GET_SCHEDULE_SCHEMA = GET_SCHEDULE_BY_ID("_id", "status");
-const UPDATE_SCHEMA = gql`
-  mutation updateSchedule($id: ID!, $data: String!) {
-    updateStatusSchedule(id: $id, data: $data) # data = status
-  }
-`;
+// graphql
+const UPDATE_SCHEMA = UPDATE_SCHEDULE("_id", "status");
 const fetchPolicy = {
   fetchPolicy: "network-only",
 };
@@ -29,10 +21,6 @@ const TableItem = ({ item, req, handlePage }) => {
 
   const [updateSchedule, { loading }] = useMutation(UPDATE_SCHEMA, fetchPolicy);
   const [deleteSchedule] = useMutation(DELETE_SCHEDULE, fetchPolicy);
-  const [getSchedule, { loading: btnDisabled }] = useLazyQuery(
-    GET_SCHEDULE_SCHEMA,
-    fetchPolicy
-  );
 
   const handleDelete = useCallback(
     async (id) => {
@@ -57,18 +45,11 @@ const TableItem = ({ item, req, handlePage }) => {
     if (adm) {
       updateSchedule({
         variables: { id: item._id, data: nextStatus[status] },
-      }).then(({ data: updateStatusSchedule }) => {
-        if (updateStatusSchedule) {
-          // atuliaza o cache com o novo status
-          getSchedule({
-            variables: { id: item._id },
-          }).then(({ data: { getSchedule } }) => {
-            setStatus(() => getSchedule.status);
-          });
-        }
+      }).then(({ data: { updateStatusSchedule } }) => {
+        setStatus(() => updateStatusSchedule.status);
       });
     }
-  }, [status, updateSchedule, item, setStatus, getSchedule, adm]);
+  }, [status, updateSchedule, item, setStatus, adm]);
 
   return (
     <>
@@ -84,9 +65,9 @@ const TableItem = ({ item, req, handlePage }) => {
               cancelled: status === "cancelled",
             })}
             onClick={handleUpdate}
-            disabled={loading || btnDisabled}
+            disabled={loading}
           >
-            {loading || btnDisabled ? "Loading..." : status}
+            {loading ? "Loading..." : status}
           </button>
         </td>
         <td className='blur align-itens'>

@@ -12,11 +12,11 @@ export const GET_SCHEDULES = (...args) => {
   `;
 };
 
-export const GET_SCHEDULE_BY_ID = (...args) => {
+export const UPDATE_SCHEDULE = (...args) => {
   const fields = getFields(args);
   return gql`
-    query GetScheduleById($id: ID!) {
-      getSchedule(id: $id) {
+    mutation updateSchedule($id: ID!, $data: String!) {
+      updateStatusSchedule(id: $id, data: $data) {
         ${fields}
       }
     }

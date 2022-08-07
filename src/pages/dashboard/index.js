@@ -29,6 +29,7 @@ const TablePage = () => {
   );
   const { data, error, fetchMore, networkStatus } = useQuery(SCHEMA, {
     variables: { page: 1, service, date },
+    fetchPolicy: "network-only",
     notifyOnNetworkStatusChange: true,
   });
 
