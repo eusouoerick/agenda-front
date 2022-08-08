@@ -11,7 +11,7 @@ const FilterModal = ({ closeModal, handlePage }) => {
   const modalRef = useRef();
   const dispatch = useDispatch();
   const { service, date } = useSelector((state) => state.tableFilter);
-  const { data, loading, error } = useQuery(SCHEMA);
+  const { data, loading } = useQuery(SCHEMA);
 
   const selectService = useCallback(
     (id) => {

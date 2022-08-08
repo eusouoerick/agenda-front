@@ -5,7 +5,6 @@ import Header from "../components/Home/Header";
 import FirstContent from "../components/Home/FirstContent";
 import Services from "../components/Home/Services";
 import About from "../components/Home/About";
-import Calendar from "../components/Calendar";
 
 export default function Home({ services }) {
   return (

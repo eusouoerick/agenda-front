@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import WindowBlur from "../../windowBlur";
 
 import LoginModal from "../../LoginModal";
@@ -26,10 +25,9 @@ const Header = () => {
   return (
     <>
       {loginModal && (
-        <WindowBlur setChildrenState={setLoginModal}>
-          <LoginModal loginLayout={loginLayout} />
-        </WindowBlur>
+        <LoginModal loginLayout={loginLayout} setLoginModal={setLoginModal} />
       )}
+
       <header>
         <div className='focus'>
           <div className='hd-lf'>

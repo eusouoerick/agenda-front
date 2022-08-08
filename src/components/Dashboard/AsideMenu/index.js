@@ -7,10 +7,10 @@ import { setAsideMenuOpen } from "../../../store/dashboardSlice";
 
 const AsideMenu = () => {
   const dispatch = useDispatch();
+  const { adm } = useSelector((state) => state.user);
   const { asideMenuPages, asideMenuOpen, currentPage } = useSelector(
     (state) => state.dashboard
   );
-  const { adm } = useSelector((state) => state.user);
 
   return (
     <>

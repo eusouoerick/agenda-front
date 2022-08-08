@@ -10,6 +10,19 @@
   gap: 10px;
 }
 
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.error {
+  color: red;
+  font-size: 19px;
+  margin: 20px;
+}
+
 .form {
   width: 100%;
   display: flex;

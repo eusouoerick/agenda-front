@@ -1,56 +1,22 @@
-import { useRef, useCallback } from "react";
-import { useQuery, useMutation } from "@apollo/client";
+import { useRef } from "react";
 import { format } from "date-fns";
-import { GET_SERVICES } from "../../graphql/schemas/services";
-import { CREATE_SCHEDULE, GET_SCHEDULES } from "../../graphql/schemas/schedules";
+import useHook from "./useHook";
 
 import WindowBlur from "../windowBlur";
-
-// get-fields - https://github.com/eusouoerick/get-fields
-const SCHEMA = [
-  "_id",
-  { name: "createdBy", items: ["_id", "name", "contact"] },
-  { name: "service", items: ["_id", "name", "price", "duration"] },
-  "date",
-  "status",
-];
 
 const CreateSchedule = ({ closeCreator, selectedService }) => {
   const date = useRef();
   const time = useRef();
   const service = useRef();
 
-  const {
-    data,
-    loading,
-    error: servicesError,
-  } = useQuery(GET_SERVICES("_id", "name", "price"));
-  const [createSchedule, { error: createError }] = useMutation(
-    CREATE_SCHEDULE(...SCHEMA) // fields que vão ser retornados da consulta;
-  );
-
-  const handleSubmit = useCallback(
-    (e) => {
-      e.preventDefault();
-      createSchedule({
-        variables: {
-          data: {
-            service: service.current.value,
-            date: new Date(`${date.current.value} ${time.current.value}`),
-          },
-        },
-        refetchQueries: [
-          {
-            query: GET_SCHEDULES(...SCHEMA),
-            variables: { service: "all", date: "" },
-          },
-        ],
-        onCompleted: () => closeCreator(),
-        onError: (error) => console.log(error.message),
-      });
+  const { data, loading, handleSubmit, createError } = useHook({
+    closeCreator,
+    inputs: {
+      date,
+      time,
+      service,
     },
-    [createSchedule, closeCreator]
-  );
+  });
 
   return (
     <WindowBlur setChildrenState={closeCreator}>

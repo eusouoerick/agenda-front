@@ -1,55 +1,14 @@
-import { memo, useCallback, useState } from "react";
-import { useSelector } from "react-redux";
-import { useMutation, gql } from "@apollo/client";
-import classnames from "classnames";
+import { memo, useState } from "react";
 import { format } from "date-fns";
-import removeAllRefs from "../../../graphql/removeAllRefs";
-import { DELETE_SCHEDULE, UPDATE_SCHEDULE } from "../../../graphql/schemas/schedules";
+import classnames from "classnames";
+import useHook from "./useHook";
 
 // componente de paginação
 import { Waypoint } from "react-waypoint";
 
-// graphql
-const UPDATE_SCHEMA = UPDATE_SCHEDULE("_id", "status");
-const fetchPolicy = {
-  fetchPolicy: "network-only",
-};
-
 const TableItem = ({ item, req, handlePage }) => {
-  const { adm } = useSelector((state) => state.user);
   const [status, setStatus] = useState(item.status);
-
-  const [updateSchedule, { loading }] = useMutation(UPDATE_SCHEMA, fetchPolicy);
-  const [deleteSchedule] = useMutation(DELETE_SCHEDULE, fetchPolicy);
-
-  const handleDelete = useCallback(
-    async (id) => {
-      await deleteSchedule({
-        variables: { id },
-        update(cache) {
-          cache.evict({ id: `Schedules:${id}` });
-          removeAllRefs(cache, item);
-        },
-      });
-    },
-    [deleteSchedule, item]
-  );
-
-  // função para atualizar o status do agendamento
-  const handleUpdate = useCallback(() => {
-    const nextStatus = {
-      pending: "completed",
-      completed: "cancelled",
-      cancelled: "pending",
-    };
-    if (adm) {
-      updateSchedule({
-        variables: { id: item._id, data: nextStatus[status] },
-      }).then(({ data: { updateStatusSchedule } }) => {
-        setStatus(() => updateStatusSchedule.status);
-      });
-    }
-  }, [status, updateSchedule, item, setStatus, adm]);
+  const { handleUpdate, handleDelete, loading } = useHook({ item, status, setStatus });
 
   return (
     <>
@@ -59,7 +18,7 @@ const TableItem = ({ item, req, handlePage }) => {
         <td>{item.service.name}</td>
         <td style={{ padding: "10px 0" }}>
           <button
-            style={{ textTransform: "capitalize", cursor: adm ? "pointer" : "auto" }}
+            style={{ textTransform: "capitalize" }}
             className={classnames("status", {
               completed: status === "completed",
               cancelled: status === "cancelled",

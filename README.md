@@ -2,14 +2,11 @@
 
 - _404
 
+- usar o .env nos links
 - botao de colocar o scroll o 0;
-- remover código lixo - SCHEMAS
 
 - Home
   - está movendo quando abre o login
-  - Login / Signup
-    - mensagem de error
-    - loading
 
 - Dashboard
   - tela de carregamento
