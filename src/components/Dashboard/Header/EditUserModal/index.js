@@ -127,6 +127,7 @@ const EditUserModal = ({ setModal }) => {
         }
         label input {
           border: solid 1px #ccc;
+          background-color: #f3f3f3;
           border-radius: 4px;
           padding: 10px;
           width: 100%;

@@ -29,7 +29,7 @@ const useHook = ({ item, status, setStatus }) => {
     [deleteSchedule, item]
   );
 
-  // função para atualizar o status do agendamento
+  // Atualiza o status do agendamento
   const handleUpdate = useCallback(() => {
     const nextStatus = {
       pending: "completed",

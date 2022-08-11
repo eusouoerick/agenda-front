@@ -1,7 +1,8 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { CREATE_SERVICE, GET_SERVICES } from "../../../../graphql/schemas/services";
 import classNames from "classnames";
+import { toast } from "react-toastify";
 
 import WindowBlur from "../../../windowBlur";
 import ThreeDotsLoading from "../../../ThreeDotsLoading";
@@ -45,6 +46,16 @@ const CreateModal = ({ closeModal }) => {
             },
             onCompleted: () => {
               closeModal();
+              toast("Serviço criado com sucesso!", {
+                type: "success",
+                position: "top-right",
+                autoClose: 3000,
+                theme: "dark",
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+              });
             },
           });
         }
@@ -76,7 +87,7 @@ const CreateModal = ({ closeModal }) => {
                   onChange={handleFormChange}
                   type='text'
                   id='name'
-                  placeholder='Nome curto e descritivo'
+                  placeholder='Até 35 caracteres'
                   className={classNames("input", {
                     alert: form.name.length > 35,
                   })}
@@ -192,6 +203,7 @@ const CreateModal = ({ closeModal }) => {
           color: #444;
         }
         .field .input {
+          background-color: #f3f3f3;
           border: solid 1px #ccc;
           border-radius: 4px;
           padding: 10px;

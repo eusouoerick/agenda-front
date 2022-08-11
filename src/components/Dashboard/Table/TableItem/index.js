@@ -1,21 +1,31 @@
-import { memo, useState } from "react";
+import { memo, useState, useRef, useEffect } from "react";
 import { format } from "date-fns";
 import classnames from "classnames";
 import useHook from "./useHook";
 
-// componente de paginação
-import { Waypoint } from "react-waypoint";
+import useOnScreen from "../../../../hooks/useOnScreen";
 
-const TableItem = ({ item, req, handlePage }) => {
+// componente de paginação
+// import { Waypoint } from "react-waypoint";
+
+const TableItem = ({ item, handlePage }) => {
+  const ref = useRef();
+  const onScreen = useOnScreen(ref, "-100px");
   const [status, setStatus] = useState(item.status);
   const { handleUpdate, handleDelete, loading } = useHook({ item, status, setStatus });
 
+  useEffect(() => {
+    if (onScreen && handlePage) {
+      handlePage();
+    }
+  }, [onScreen, handlePage]);
+
   return (
     <>
-      <tr>
+      <tr ref={ref}>
         <td className='focus'>{item.createdBy.name.split(" ")[0]}</td>
         <td className='blur'>{item.createdBy.contact}</td>
-        <td>{item.service.name}</td>
+        <td className='service'>{item.service.name}</td>
         <td style={{ padding: "10px 0" }}>
           <button
             style={{ textTransform: "capitalize" }}
@@ -42,7 +52,6 @@ const TableItem = ({ item, req, handlePage }) => {
           <button className='delete' onClick={() => handleDelete(item._id)}>
             <span className='material-icons'>close</span>
           </button>
-          {req && <Waypoint onEnter={() => handlePage()} />}
         </td>
       </tr>
 
@@ -51,6 +60,10 @@ const TableItem = ({ item, req, handlePage }) => {
           display: table-cell;
           text-align: center;
           padding: 15px 10px;
+        }
+        .service {
+          width: 200px;
+          max-width: 200px;
         }
         td {
           border-bottom: var(--gray-border);

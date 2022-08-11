@@ -63,7 +63,7 @@ const UserModal = ({ setModal, userId }) => {
                     <tbody>
                       {data.getUser?.schedules.map((schedule) => (
                         <tr key={schedule._id}>
-                          <td>{schedule.service.name}</td>
+                          <td className='service'>{schedule.service.name}</td>
                           <td className='blur align-itens'>
                             <span>
                               {format(new Date(schedule.date), "H") +
@@ -102,7 +102,7 @@ const UserModal = ({ setModal, userId }) => {
           align-items: center;
           height: 100%;
         }
-        .align{
+        .align {
           margin-top: 20px;
           display: flex;
           justify-content: center;
@@ -151,15 +151,14 @@ const UserModal = ({ setModal, userId }) => {
           border-radius: 5px;
           border: var(--gray-border);
         }
-        .actions button.block:hover{
+        .actions button.block:hover {
           background-color: var(--color-primary);
           color: #fff;
           border-color: var(--color-primary);
         }
-        
+
         .modal-user-history {
-          height: 100%;
-          margin-top: 10px;
+          height: 450px;
           padding: 0 5px;
           overflow-y: auto;
         }
@@ -182,6 +181,10 @@ const UserModal = ({ setModal, userId }) => {
           padding: 15px 0;
           border-bottom: var(--gray-border);
         }
+        td.service {
+          width: 200px;
+          max-width: 200px;
+        }
         td.align-itens {
           color: hsla(337, 7%, 36%, 1);
           display: flex;
@@ -191,21 +194,23 @@ const UserModal = ({ setModal, userId }) => {
         }
         .status {
           text-transform: capitalize;
-          width: 100px;
           min-width: 100px;
           font-size: 13px;
           font-weight: 600;
           border-radius: 9999px;
           padding: 6px 15px;
           background-color: var(--pending-background);
+          border: 1px solid var(--pending-border);
           color: var(--color-pending);
         }
         .status.completed {
           background-color: var(--completed-background);
+          border-color: var(--completed-border);
           color: var(--color-completed);
         }
         .status.cancelled {
           background-color: var(--cancelled-background);
+          border-color: var(--cancelled-border);
           color: var(--color-cancelled);
         }
       `}</style>

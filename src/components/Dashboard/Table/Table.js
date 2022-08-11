@@ -25,8 +25,7 @@ const Table = ({ data, handlePage }) => {
                 <TableItem
                   item={item}
                   key={item._id}
-                  req={index + 1 === data.schedules.length}
-                  handlePage={handlePage}
+                  handlePage={index + 1 === data.schedules.length ? handlePage : null}
                 />
               );
           })}

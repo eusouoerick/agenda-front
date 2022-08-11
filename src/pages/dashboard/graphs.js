@@ -3,6 +3,10 @@ import GraphMoney from "../../components/Dashboard/graphs/GraphMoney";
 import GraphServices from "../../components/Dashboard/graphs/GraphServices";
 import GraphUsers from "../../components/Dashboard/graphs/GraphUsers";
 
+import Chart from "chart.js/auto";
+import { CategoryScale } from "chart.js";
+Chart.register(CategoryScale);
+
 const GraphsPage = () => {
   return (
     <>

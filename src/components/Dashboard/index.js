@@ -1,55 +1,34 @@
-import { useEffect } from "react";
-import { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux";
-import { getUser } from "../../store/userSlice";
-import { setCurrentPage } from "../../store/dashboardSlice";
+import { useRef } from "react";
+import useDashboard from "./useDashboard";
 
 import Header from "./Header";
 import AsideMenu from "./AsideMenu";
+import LoadingPage from "./LoadingPage";
+import ScrollUp from "../ScrollUp";
 
 // Este componente é responsável por organizar o layout da páginas do dashboard
-// e por verificar se o usuário está logado
-// ~> _app.js
+// e por verificar se o usuário está logado ~> _app.js
 const Dashboard = ({ children }) => {
-  const router = useRouter();
-  const dispatch = useDispatch();
-  const { loading, _id } = useSelector((state) => state.user);
+  const ref = useRef();
+  const { loading, _id } = useDashboard();
 
-  useEffect(() => {
-    // Verifica se o usuário está logado
-    (async () => {
-      const token = localStorage.getItem("token");
-      if (token && !_id) {
-        await dispatch(getUser());
-      } else if (!token) {
-        router.push("/");
-      }
-    })();
-  }, [_id, dispatch, router]);
-
-  useEffect(() => {
-    // Redireciona o usuário se o token expirar ou se o usuário não estiver logado
-    if (!loading && !_id) {
-      localStorage.removeItem("token");
-      router.push("/");
-    }
-  }, [loading, _id, router]);
-
-  useEffect(() => {
-    // deixa  icone do AsideMenu colorido da pagina atual
-    const pathname = router.pathname.split("/").pop();
-    dispatch(setCurrentPage(`${pathname[0].toUpperCase()}${pathname.slice(1)}`));
-  }, [dispatch, router]);
-
-  if (loading) return <h1>Carregando...</h1>;
+  if (loading) return <LoadingPage />;
   if (_id) {
     return (
       <>
         <AsideMenu />
-        <div style={{ width: "100%", overflow: "auto" }}>
+        <div
+          ref={ref}
+          style={{
+            width: "100%",
+            overflowY: "scroll",
+            scrollBehavior: "smooth",
+          }}
+        >
           <Header />
           <main id='main'>{children}</main>
         </div>
+        <ScrollUp container={ref} />
 
         <style jsx>{`
           main {

@@ -3,86 +3,93 @@ import { format } from "date-fns";
 import useHook from "./useHook";
 
 import WindowBlur from "../windowBlur";
+import ThreeDotsLoading from "../ThreeDotsLoading";
 
 const CreateSchedule = ({ closeCreator, selectedService }) => {
   const date = useRef();
   const time = useRef();
   const service = useRef();
 
-  const { data, loading, handleSubmit, createError } = useHook({
-    closeCreator,
-    inputs: {
-      date,
-      time,
-      service,
-    },
-  });
+  const { data, servicesLoading, loadingCreator, handleSubmit, createError } = useHook(
+    {
+      closeCreator,
+      inputs: { date, time, service },
+    }
+  );
 
   return (
     <WindowBlur setChildrenState={closeCreator}>
       <form className='form' onSubmit={handleSubmit}>
-        {true && <span className='error'>{createError?.message}</span>}
-        <div className='fc'>
-          <div className='date-container'>
-            <div className='input-area'>
-              <label htmlFor='date'>Data</label>
-              <input
-                ref={date}
-                className='input'
-                id='date'
-                name='date'
-                type='date'
-                min={format(new Date(), "yyyy-MM-dd")}
-                autoFocus
-                required
-              />
+        {loadingCreator ? (
+          <ThreeDotsLoading />
+        ) : (
+          <>
+            {true && <span className='error'>{createError?.message}</span>}
+            <div className='fc'>
+              <div className='date-container'>
+                <div className='input-area'>
+                  <label htmlFor='date'>Data</label>
+                  <input
+                    ref={date}
+                    className='input'
+                    id='date'
+                    name='date'
+                    type='date'
+                    min={format(new Date(), "yyyy-MM-dd")}
+                    autoFocus
+                    required
+                  />
+                </div>
+                <div className='input-area'>
+                  <label htmlFor=''>Horario</label>
+                  <input
+                    ref={time}
+                    id='time'
+                    type='time'
+                    className='input'
+                    style={{ minWidth: 90, maxWidth: 90 }}
+                    name='time'
+                    min='09:00'
+                    max='18:00'
+                    onBlur={(e) => {
+                      // remover os minutos
+                      e.target.value = e.target.value.split(":")[0] + ":00";
+                    }}
+                    required
+                  />
+                </div>
+              </div>
+              <div className='input-area services-area'>
+                <label htmlFor='services'>Serviço</label>
+                <select
+                  ref={service}
+                  className='input'
+                  name='services'
+                  id='services'
+                  required
+                  defaultValue={selectedService || undefined}
+                >
+                  <option value='' style={{ color: "transparent" }}>
+                    Selecionar
+                  </option>
+                  {data?.services.map((item) => (
+                    <option value={item._id} key={item._id}>
+                      {item.name} - R${item.price.toString().replace(".", ",")}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className='btns'>
+                <button type='submit' disabled={servicesLoading}>
+                  Agendar dia
+                </button>
+                <button className='blur' onClick={closeCreator}>
+                  Cancelar
+                </button>
+              </div>
             </div>
-            <div className='input-area'>
-              <label htmlFor=''>Horario</label>
-              <input
-                ref={time}
-                style={{ minWidth: 90, maxWidth: 90 }}
-                className='input'
-                id='time'
-                name='time'
-                type='time'
-                value={"09:00"}
-                onChange={(e) => e.target.value}
-                min='09:00'
-                max='18:00'
-                required
-              />
-            </div>
-          </div>
-          <div className='input-area services-area'>
-            <label htmlFor='services'>Serviço</label>
-            <select
-              ref={service}
-              className='input'
-              name='services'
-              id='services'
-              required
-              defaultValue={selectedService || undefined}
-            >
-              <option value='' style={{ color: "transparent" }}>
-                Selecionar
-              </option>
-              {data?.services.map((item) => (
-                <option value={item._id} key={item._id}>
-                  {item.name} - R${item.price.toString().replace(".", ",")}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className='btns'>
-            <button type='submit' disabled={loading}>
-              Agendar dia
-            </button>
-            <button className='blur' onClick={closeCreator}>
-              Cancelar
-            </button>
-          </div>
-        </div>
+          </>
+        )}
       </form>
 
       <style jsx>{`
@@ -105,7 +112,6 @@ const CreateSchedule = ({ closeCreator, selectedService }) => {
         }
         span.error {
           color: red;
-          margin-top: 10px;
         }
         .fc {
           display: flex;
@@ -123,6 +129,7 @@ const CreateSchedule = ({ closeCreator, selectedService }) => {
           height: 40px;
           border-radius: 4px;
           border: 1px solid #ccc;
+          background-color: #f3f3f3;
           padding: 0 10px;
           margin-bottom: 10px;
         }
