@@ -1,7 +1,8 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useMutation } from "@apollo/client";
 import removeAllRefs from "../../../../graphql/removeAllRefs";
+import useOnScreen from "../../../../hooks/useOnScreen";
 import {
   DELETE_SCHEDULE,
   UPDATE_SCHEDULE,
@@ -11,10 +12,17 @@ import {
 const UPDATE_SCHEMA = UPDATE_SCHEDULE("_id", "status");
 const fetchPolicy = { fetchPolicy: "network-only" };
 
-const useHook = ({ item, status, setStatus }) => {
+const useHook = ({ item, status, setStatus, element, handlePage }) => {
   const { adm } = useSelector((state) => state.user);
+  const onScreen = useOnScreen(element, "-100px");
   const [updateSchedule, { loading }] = useMutation(UPDATE_SCHEMA, fetchPolicy);
   const [deleteSchedule] = useMutation(DELETE_SCHEDULE, fetchPolicy);
+
+  useEffect(() => {
+    if (onScreen && handlePage) {
+      handlePage();
+    }
+  }, [onScreen, handlePage]);
 
   const handleDelete = useCallback(
     async (id) => {

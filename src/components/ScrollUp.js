@@ -32,7 +32,7 @@ const ScrollUp = ({ container }) => {
           bottom: 20px;
           right: 40px;
           width: 45px;
-          height: 45px;
+          height: 40px;
           border: solid 1px #ccc;
           background: #181818;
           border-radius: 6px;

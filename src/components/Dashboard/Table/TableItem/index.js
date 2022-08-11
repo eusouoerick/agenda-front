@@ -3,22 +3,19 @@ import { format } from "date-fns";
 import classnames from "classnames";
 import useHook from "./useHook";
 
-import useOnScreen from "../../../../hooks/useOnScreen";
-
 // componente de paginação
 // import { Waypoint } from "react-waypoint";
 
 const TableItem = ({ item, handlePage }) => {
   const ref = useRef();
-  const onScreen = useOnScreen(ref, "-100px");
   const [status, setStatus] = useState(item.status);
-  const { handleUpdate, handleDelete, loading } = useHook({ item, status, setStatus });
-
-  useEffect(() => {
-    if (onScreen && handlePage) {
-      handlePage();
-    }
-  }, [onScreen, handlePage]);
+  const { handleUpdate, handleDelete, loading } = useHook({
+    item,
+    status,
+    setStatus,
+    element: ref,
+    handlePage,
+  });
 
   return (
     <>
