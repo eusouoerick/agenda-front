@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../../../../store/userSlice";
 import { useMutation } from "@apollo/client";
 import { UPDATE_USER } from "../../../../graphql/schemas/users";
+import { toast } from "react-toastify";
 
 const useHook = ({ inputs, setModal }) => {
   const dispatch = useDispatch();
@@ -31,7 +32,28 @@ const useHook = ({ inputs, setModal }) => {
           const { contact, name } = data.updateUser;
           dispatch(setUser({ contact, name }));
           setModal();
-        });
+          toast("Usuário atualizado com sucesso!", {
+            type: "success",
+            position: "top-right",
+            autoClose: 3000,
+            theme: "dark",
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+          });
+        }).catch(({ message }) => {
+          toast(message, {
+            type: "error",
+            position: "top-right",
+            autoClose: 3000,
+            theme: "dark",
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+          });
+        })
       }
     }
   };

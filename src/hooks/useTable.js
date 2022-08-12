@@ -15,12 +15,12 @@ const SCHEMA = GET_SCHEDULES(
 
 const useTable = () => {
   const dispatch = useDispatch();
-  const { service, date } = useSelector((state) => state.tableFilter);
+  const { service, date, status } = useSelector((state) => state.tableFilter);
   const [page, setPage] = useState(1);
   const [cachedPage, setCachedPage] = useState(false); // impede que ocorra uma busca repetida na pagina
 
   const { data, error, fetchMore, networkStatus } = useQuery(SCHEMA, {
-    variables: { page: 1, service, date },
+    variables: { page: 1, service, date, status },
     fetchPolicy: "network-only",
     notifyOnNetworkStatusChange: true,
   });
@@ -56,6 +56,7 @@ const useTable = () => {
           page,
           service,
           date,
+          status,
         },
         updateQuery(prev, { fetchMoreResult }) {
           if (!fetchMoreResult) return prev;

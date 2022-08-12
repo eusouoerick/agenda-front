@@ -60,3 +60,15 @@
   text-decoration: underline;
   color: var(--color-primary);
 }
+
+@media (max-width: 350PX) {
+  .login-modal {
+    width: 100vw;
+    border-radius: 0;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+}

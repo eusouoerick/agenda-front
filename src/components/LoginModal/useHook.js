@@ -11,8 +11,8 @@ const useHook = ({ layout, form }) => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [createUserGql] = useMutation(CREATE_USER, null, { fetchPolicy: "no-cache" });
-  const [loginGql] = useLazyQuery(LOGIN, null, { fetchPolicy: "no-cache" });
+  const [createUserGql] = useMutation(CREATE_USER, null, { fetchPolicy: "network-only" });
+  const [loginGql] = useLazyQuery(LOGIN, null, { fetchPolicy: "network-only" });
 
   useEffect(() => {
     setError(null);

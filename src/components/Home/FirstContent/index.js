@@ -4,7 +4,7 @@ import HOME_ITT from "../../../assets/img/home_itt.jpg";
 const FirstContent = () => {
   return (
     <>
-      <section className='fc'>
+      <section>
         <article>
           <h1>Lorem ipsum dolor sit amet consectetur</h1>
           <p>
@@ -17,18 +17,20 @@ const FirstContent = () => {
             Ver mais
           </a>
         </article>
-        <Image
-          src={HOME_ITT}
-          alt='foto ilustrativa'
-          width={470}
-          height={320}
-          priority
-          quality={100}
-        />
+        <div className='img'>
+          <Image
+            src={HOME_ITT}
+            alt='foto ilustrativa'
+            width={470}
+            height={320}
+            priority
+            quality={100}
+          />
+        </div>
       </section>
 
       <style jsx>{`
-        .fc {
+        section {
           background: #fff;
           opacity: 0;
           width: 65rem;
@@ -37,11 +39,33 @@ const FirstContent = () => {
           align-items: flex-start;
           animation: fadeIn 0.5s cubic-bezier(0.4, 0, 1, 1) forwards;
         }
-        .fc article {
+        section article {
           width: 500px;
         }
-        .fc article a {
+        section article a {
           justify-self: flex-end;
+        }
+
+        @media (max-width: 1100px) {
+          section {
+            width: 100%;
+            padding: 0 50px;
+          }
+          .img {
+            width: 40%;
+          }
+        }
+
+        @media (max-width: 980px) {
+          .img {
+            display: none;
+          }
+        }
+
+        @media (max-width: 510px) {
+          section {
+            padding: 0 25px;
+          }
         }
       `}</style>
     </>

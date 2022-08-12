@@ -54,7 +54,7 @@ const Services = ({ servicesList }) => {
 
       <style jsx>{`
         .services {
-          background: #ececed;
+          background: #ebebebcc;
           opacity: 0;
           width: 100vw;
           padding: 2rem 0;
@@ -123,6 +123,15 @@ const Services = ({ servicesList }) => {
           text-align: center;
           font-size: 14px;
           color: #303030;
+        }
+
+        @media (max-width: 1100px) {
+          .carousel {
+            padding: 0 10px;
+          }
+          .items {
+            overflow-x: auto;
+          }
         }
       `}</style>
     </>

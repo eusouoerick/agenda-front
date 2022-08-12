@@ -4,8 +4,8 @@ import getFields from "get-fields";
 export const GET_SCHEDULES = (...args) => {
   const fields = getFields(args);
   return gql`
-    query GetSchedules($page: Int, $service: ID, $date: String) {
-      schedules(page: $page, service: $service, date: $date) {
+    query GetSchedules($page: Int, $service: ID, $date: String, $status: [String!]) {
+      schedules(page: $page, service: $service, date: $date, status: $status) {
         ${fields}
       }
     }

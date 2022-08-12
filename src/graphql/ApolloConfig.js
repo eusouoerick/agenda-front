@@ -7,7 +7,7 @@ import {
 } from "@apollo/client";
 
 const httpLink = new HttpLink({
-  uri: "http://localhost:4000/graphql",
+  uri: process.env.NEXT_PUBLIC_API_URL,
 });
 
 // Configura o cabecalho da requisição com o token

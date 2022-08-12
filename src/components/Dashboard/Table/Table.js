@@ -19,16 +19,13 @@ const Table = ({ data, handlePage }) => {
           </tr>
         </thead>
         <tbody>
-          {data?.schedules?.map((item, index) => {
-            if (status.includes(item.status))
-              return (
-                <TableItem
-                  item={item}
-                  key={item._id}
-                  handlePage={index + 1 === data.schedules.length ? handlePage : null}
-                />
-              );
-          })}
+          {data?.schedules?.map((item, index) => (
+            <TableItem
+              item={item}
+              key={item._id}
+              handlePage={index + 1 === data.schedules.length ? handlePage : null}
+            />
+          ))}
         </tbody>
       </table>
 

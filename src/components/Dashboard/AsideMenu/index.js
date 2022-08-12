@@ -1,16 +1,26 @@
+import { useCallback } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import classnames from "classnames";
+import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import { setCurrentPage } from "../../../store/dashboardSlice";
 import { setAsideMenuOpen } from "../../../store/dashboardSlice";
+// import client from "../../../graphql/ApolloConfig";
 
 const AsideMenu = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const { adm } = useSelector((state) => state.user);
   const { asideMenuPages, asideMenuOpen, currentPage } = useSelector(
     (state) => state.dashboard
   );
+
+  const handleLogout = useCallback(() => {
+    localStorage.removeItem("token");
+    router.push("/");
+    // client.resetStore();
+  }, [router]);
 
   return (
     <>
@@ -50,7 +60,11 @@ const AsideMenu = () => {
               );
             })}
             <li className='signout' style={{ width: asideMenuOpen ? "100%" : "auto" }}>
-              <button style={{ color: "#fff" }} className='nav-item'>
+              <button
+                onClick={handleLogout}
+                style={{ color: "#fff" }}
+                className='nav-item'
+              >
                 <span className='material-icons' style={{ transform: "scaleX(-1)" }}>
                   logout
                 </span>

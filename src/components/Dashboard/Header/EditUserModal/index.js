@@ -22,6 +22,8 @@ const EditUserModal = ({ setModal }) => {
     setInputs((state) => ({ ...state, contact: name }));
   };
 
+  const btnDisabled = !inputs.name && !inputs.email && !inputs.phone && !inputs.contact;
+
   return (
     <>
       <WindowBlur setChildrenState={loading ? () => {} : setModal}>
@@ -89,7 +91,7 @@ const EditUserModal = ({ setModal }) => {
                 </div>
               </div>
               <div className='submit-container'>
-                <button type='submit' className='btn-submit'>
+                <button type='submit' className='btn-submit' disabled={btnDisabled}>
                   Salvar
                 </button>
                 <button className='btn-close-modal' onClick={setModal}>

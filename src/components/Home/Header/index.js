@@ -29,7 +29,7 @@ const Header = () => {
       )}
 
       <header>
-        <div className='focus'>
+        <div className='container'>
           <div className='hd-lf'>
             <span className='logo'>LOGO</span>
             <nav>
@@ -47,7 +47,7 @@ const Header = () => {
               </ul>
             </nav>
           </div>
-          <div>
+          <div className='btns'>
             <button
               className='btn-home lgn'
               onClick={() => {
@@ -80,49 +80,61 @@ const Header = () => {
           opacity: 0;
           animation: fadeIn 0.2s ease-in-out forwards;
         }
-        header .focus {
+        .container {
           width: 65rem;
           display: flex;
           justify-content: space-between;
           align-items: center;
           padding: 20px 50px;
         }
-        header .hd-lf {
+        .hd-lf {
           display: flex;
           align-items: center;
         }
-        header .logo {
+        .logo {
           font-size: 24px;
           font-weight: bold;
           color: var(--color-primary);
         }
-        header .nav {
+        .nav {
           display: flex;
           gap: 20px;
         }
-        header .nav li {
+        .nav li {
           cursor: pointer;
           list-style: none;
         }
-        header .nav li a {
+        .nav li a {
           text-decoration: none;
           color: #000;
         }
-        header .nav li a:hover {
+        .nav li a:hover {
           text-decoration: underline;
         }
-        header .btn-home.lgn:hover {
+        .btn-home.lgn:hover {
           color: var(--color-primary);
           text-decoration: underline;
         }
-        header .btn-home.rgt {
+        .btn-home.rgt {
           color: var(--color-primary);
           margin-left: 10px;
           border: 1px solid var(--color-primary);
         }
-        header .btn-home.rgt:hover {
+        .btn-home.rgt:hover {
           color: hsl(0, 0%, 100%);
           background: var(--color-primary);
+        }
+
+        @media (max-width: 765px) {
+          nav {
+            display: none;
+          }
+        }
+        @media (max-width: 400px) {
+          .container {
+            width: 100%;
+            padding: 20px 10px;
+          }
         }
       `}</style>
     </>

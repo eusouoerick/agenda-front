@@ -37,6 +37,7 @@ const ScrollUp = ({ container }) => {
           background: #181818;
           border-radius: 6px;
           opacity: 0;
+          index: 999;
           animation: fadeIn 0.5s forwards;
         }
 

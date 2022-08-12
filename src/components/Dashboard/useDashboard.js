@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../store/userSlice";
@@ -7,7 +7,22 @@ import { setCurrentPage } from "../../store/dashboardSlice";
 const useHook = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const [loadingRouter, setLoadingRouter] = useState(false);
   const { loading, _id } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    // loading do link
+    router.events.on("routeChangeStart", () => {
+      setLoadingRouter(() => true);
+    });
+    router.events.on("routeChangeComplete", () => {
+      setLoadingRouter(() => false);
+    });
+    return () => {
+      router.events.off("routeChangeStart");
+      router.events.off("routeChangeComplete");
+    };
+  }, [router.events]);
 
   useEffect(() => {
     // Verifica se o usuário está logado
@@ -35,7 +50,7 @@ const useHook = () => {
     dispatch(setCurrentPage(`${pathname[0].toUpperCase()}${pathname.slice(1)}`));
   }, [dispatch, router]);
 
-  return { loading, _id };
+  return { loading, _id, loadingRouter };
 };
 
 export default useHook;

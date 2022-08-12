@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import EditUserModal from "./EditUserModal";
 
-const HeaderDashboard = () => {
+const HeaderDashboard = ({ loadingRouter }) => {
   const [editModalOpen, setEditModalOpen] = useState(false);
 
   const handleEditModalOpen = useCallback(() => {
@@ -15,12 +15,15 @@ const HeaderDashboard = () => {
       {editModalOpen && <EditUserModal setModal={handleEditModalOpen} />}
       <header>
         <h1>LOGO</h1>
-        <div>
-          <button className='user-container' onClick={handleEditModalOpen}>
-            <span>Editar perfil</span>
-          </button>
-        </div>
+        {!loadingRouter && (
+          <div>
+            <button className='user-container' onClick={handleEditModalOpen}>
+              <span>Editar perfil</span>
+            </button>
+          </div>
+        )}
       </header>
+
       <style jsx>{`
         header {
           background-color: #fff;
