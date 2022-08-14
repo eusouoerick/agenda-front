@@ -81,6 +81,4 @@ export const getStaticProps = async () => {
   };
 };
 
-Home.getLayout = (page) => {
-  return <>{page}</>;
-};
+Home.getLayout = (page) => <>{page}</>;

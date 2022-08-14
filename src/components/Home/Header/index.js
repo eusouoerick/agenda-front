@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import WindowBlur from "../../windowBlur";
 
 import LoginModal from "../../LoginModal";
 

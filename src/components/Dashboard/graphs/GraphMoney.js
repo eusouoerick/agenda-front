@@ -30,11 +30,34 @@ const GraphMoney = () => {
             data: counts,
             label: "Ganhos nos últimos 7 dias",
             borderColor: "hsl(144deg 70% 64%)",
+            backgroundColor: "hsla(144, 70%, 64%, 0.2)",
             fill: true,
+            tension: 0.1,
           },
         ],
       }}
       options={{
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            labels: {
+              boxWidth: 0,
+              font: {
+                size: 16,
+                weight: "bold",
+                family: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+              },
+            },
+          },
+          tooltip: {
+            callbacks: {
+              label: ({ raw }) => {
+                const s = raw > 0 ? "R$ " : "";
+                return ` Qtd: ${s}` + raw;
+              },
+            },
+          },
+        },
         scales: {
           y: {
             beginAtZero: true,

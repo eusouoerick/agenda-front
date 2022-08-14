@@ -99,6 +99,12 @@ const Card = ({ item, adm }) => {
         .btn:hover {
           background: var(--color-primary-dark);
         }
+
+        @media (max-width: 1250px) {
+          .three-dots {
+            display: block;
+          }
+        }
       `}</style>
     </>
   );

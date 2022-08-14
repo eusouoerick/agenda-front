@@ -33,7 +33,6 @@ const ScrollUp = ({ container }) => {
           right: 40px;
           width: 45px;
           height: 40px;
-          border: solid 1px #ccc;
           background: #181818;
           border-radius: 6px;
           opacity: 0;

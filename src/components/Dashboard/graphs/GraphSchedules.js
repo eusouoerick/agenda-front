@@ -28,13 +28,34 @@ const GraphSchedules = () => {
         datasets: [
           {
             data: counts,
-            label: "Agendamentos criados nos últimos 7 dias",
+            label: "Agendamentos criados",
             borderColor: "#3e95cd",
             fill: true,
+            tension: 0.1,
           },
         ],
       }}
       options={{
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            labels: {
+              boxWidth: 0,
+              font: {
+                size: 16,
+                weight: "bold",
+                family: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+              },
+            },
+          },
+          tooltip: {
+            callbacks: {
+              label: ({ raw }) => {
+                return " Qtd: " + raw;
+              },
+            },
+          },
+        },
         scales: {
           y: {
             beginAtZero: true,

@@ -1,26 +1,14 @@
-import { useCallback } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import classnames from "classnames";
-import { useRouter } from "next/router";
-import { useSelector, useDispatch } from "react-redux";
+import useMenu from "../../../hooks/useMenu";
+import { useDispatch } from "react-redux";
 import { setCurrentPage } from "../../../store/dashboardSlice";
 import { setAsideMenuOpen } from "../../../store/dashboardSlice";
-// import client from "../../../graphql/ApolloConfig";
 
 const AsideMenu = () => {
-  const router = useRouter();
   const dispatch = useDispatch();
-  const { adm } = useSelector((state) => state.user);
-  const { asideMenuPages, asideMenuOpen, currentPage } = useSelector(
-    (state) => state.dashboard
-  );
-
-  const handleLogout = useCallback(() => {
-    localStorage.removeItem("token");
-    router.push("/");
-    // client.resetStore();
-  }, [router]);
+  const { handleLogout, asideMenuPages, asideMenuOpen, currentPage, adm } = useMenu();
 
   return (
     <>
@@ -153,6 +141,12 @@ const AsideMenu = () => {
         }
         .signout {
           margin: auto 0 0 0;
+        }
+
+        @media (max-width: 1250px) {
+          aside {
+            display: none;
+          }
         }
       `}</style>
     </>

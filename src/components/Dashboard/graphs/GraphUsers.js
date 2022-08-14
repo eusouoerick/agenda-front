@@ -28,13 +28,33 @@ const GraphUsers = () => {
         datasets: [
           {
             data: counts,
-            label: "Contas criadas nos últimos 7 dias",
+            label: "Contas criadas",
             backgroundColor: "hsl(337deg 100% 64%)",
             fill: true,
           },
         ],
       }}
       options={{
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            labels: {
+              boxWidth: 0,
+              font: {
+                size: 16,
+                weight: "bold",
+                family: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+              },
+            },
+          },
+          tooltip: {
+            callbacks: {
+              label: ({ raw }) => {
+                return ` Qtd: ` + raw;
+              },
+            },
+          },
+        },
         scales: {
           y: {
             beginAtZero: true,

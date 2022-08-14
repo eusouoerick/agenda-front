@@ -153,7 +153,9 @@ const CreateModal = ({ closeModal }) => {
                 <button type='submit' className='btn-submit'>
                   Adicionar serviço
                 </button>
-                <button onClick={closeModal}>Cancelar</button>
+                <button onClick={closeModal} className='close'>
+                  Cancelar
+                </button>
               </div>
             </>
           )}
@@ -164,7 +166,7 @@ const CreateModal = ({ closeModal }) => {
         .modal {
           padding: 20px;
           width: 370px;
-          height: 400px;
+          height: 410px;
           background: #fff;
           border: var(--gray-border);
           border-radius: 4px;
@@ -237,6 +239,18 @@ const CreateModal = ({ closeModal }) => {
         }
         .btn-submit:hover {
           background: var(--color-primary-dark);
+        }
+        .btns .close {
+          width: max-content;
+          padding: 7px 10px;
+          margin: 0 auto;
+        }
+
+        @media (max-width: 370px) {
+          .modal {
+            width: 100vw;
+            border-radius: 0;
+          }
         }
       `}</style>
     </>

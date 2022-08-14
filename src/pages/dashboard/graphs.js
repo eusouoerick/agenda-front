@@ -37,12 +37,21 @@ const GraphsPage = () => {
         .graph-area {
           display: flex;
           justify-content: center;
-          padding: 20px;
-          width: 500px;
+          padding: 10px;
+          width: 100%;
           height: 271px;
           border-radius: 4px;
           border: var(--gray-border);
           background-color: #fff;
+        }
+
+        @media (max-width: 510px) {
+          .container {
+            grid-template-columns: repeat(auto-fit, minmax(100vw, 100vw));
+          }
+          .graph-area {
+            padding: 20px 0px;
+          }
         }
       `}</style>
     </>

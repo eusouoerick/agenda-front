@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { toast } from "react-toastify";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_SERVICES } from "../../graphql/schemas/services";
-import { CREATE_SCHEDULE, GET_SCHEDULES } from "../../graphql/schemas/schedules";
+import { CREATE_SCHEDULE } from "../../graphql/schemas/schedules";
 
 // get-fields - https://github.com/eusouoerick/get-fields
 const SCHEMA = [

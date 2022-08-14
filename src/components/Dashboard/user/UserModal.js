@@ -31,6 +31,9 @@ const UserModal = ({ setModal, userId }) => {
             </div>
           ) : (
             <>
+              <button className='close' onClick={setModal}>
+                <span className='material-icons'>close</span>
+              </button>
               <div className='modal-user-info'>
                 <div className='contact'>
                   <span className='name'>{data.getUser?.name}</span>
@@ -38,7 +41,7 @@ const UserModal = ({ setModal, userId }) => {
                     {data.getUser?.email && <span>email: {data.getUser.email}</span>}
                     {data.getUser?.phone && <span>phone: {data.getUser.phone}</span>}
                     <span>
-                      _id: <span className='id'>{userId}</span>
+                      #id: <span className='id'>{userId}</span>
                     </span>
                   </div>
                 </div>
@@ -57,7 +60,7 @@ const UserModal = ({ setModal, userId }) => {
                       <tr>
                         <th>Serviço</th>
                         <th>Data</th>
-                        <th>Status</th>
+                        <th className='none'>Status</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -74,7 +77,7 @@ const UserModal = ({ setModal, userId }) => {
                               {format(new Date(schedule.date), "dd/MM/yyyy")}
                             </span>
                           </td>
-                          <td>
+                          <td className='none'>
                             <span
                               className={classnames("status", {
                                 completed: schedule.status === "completed",
@@ -109,15 +112,22 @@ const UserModal = ({ setModal, userId }) => {
           font-size: 18px;
         }
         .user-modal {
+          position: relative;
           width: 550px;
-          height: 600px;
+          height: 500px;
           background-color: #fff;
           border: var(--gray-border);
           border-radius: 5px;
           overflow: hidden;
         }
+        button.close {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+        }
         .modal-user-info {
-          padding: 20px;
+          height: 128px;
+          padding: 10px 20px;
           display: flex;
           justify-content: space-between;
           border-bottom: var(--gray-border);
@@ -158,7 +168,7 @@ const UserModal = ({ setModal, userId }) => {
         }
 
         .modal-user-history {
-          height: 450px;
+          height: calc(100% - 128px);
           padding: 0 5px;
           overflow-y: auto;
         }
@@ -212,6 +222,40 @@ const UserModal = ({ setModal, userId }) => {
           background-color: var(--cancelled-background);
           border-color: var(--cancelled-border);
           color: var(--color-cancelled);
+        }
+
+        @media (max-width: 768px) {
+          .status {
+            padding: 5px 10px;
+            min-width: 20px;
+            font-size: 11px;
+          }
+        }
+
+        @media (max-width: 550px) {
+          .user-modal {
+            width: 100vw;
+            border-radius: 0;
+          }
+          table tbody {
+            font-size: 14px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          td.service {
+            width: 140px;
+          }
+        }
+
+        @media (max-width: 375px) {
+          td.service {
+            width: 120px;
+            max-width: 140px;
+          }
+          .none {
+            display: none;
+          }
         }
       `}</style>
     </>

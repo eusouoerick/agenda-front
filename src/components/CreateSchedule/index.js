@@ -162,6 +162,13 @@ const CreateSchedule = ({ closeCreator, selectedService }) => {
           font-size: 16px;
           cursor: pointer;
         }
+
+        @media (max-width: 350px) {
+          .form {
+            width: 100vw;
+            border-radius: 0;
+          }
+        }
       `}</style>
     </WindowBlur>
   );

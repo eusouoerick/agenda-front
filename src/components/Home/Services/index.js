@@ -1,4 +1,4 @@
-import { useRef, useMemo, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import CardService from "./CardService";
 
 const Services = ({ servicesList }) => {

@@ -74,6 +74,13 @@ const UserCard = ({ user }) => {
           background-color: var(--color-primary);
           color: #fff;
         }
+
+        @media (max-width: 410px) {
+          .user {
+            width: 100%;
+            border-radius: 0;
+          }
+        }
       `}</style>
     </>
   );

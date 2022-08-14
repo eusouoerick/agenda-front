@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useQuery, gql } from "@apollo/client";
-import { Bar } from "react-chartjs-2";
+import { Pie } from "react-chartjs-2";
 import ThreeDotsLoading from "../../ThreeDotsLoading";
 
 const SCHEMA = gql`
@@ -20,7 +20,7 @@ const GraphServices = () => {
 
   if (loading) return <ThreeDotsLoading />;
   return (
-    <Bar
+    <Pie
       width={100}
       height={50}
       data={{
@@ -28,27 +28,41 @@ const GraphServices = () => {
         datasets: [
           {
             data: counts,
-            label: "Serviços mais solicitados",
             backgroundColor: [
               "#3e95cd",
               "#8e5ea2",
               "#3cba9f",
               "#e8c3b9",
               "#c45850",
-              "#3e95cd",
-              "#8e5ea2",
-              "#3cba9f",
-              "#e8c3b9",
-              "#c45850",
+              "#FCC714",
+              "#6EE61E",
             ],
             fill: true,
           },
         ],
       }}
       options={{
+        maintainAspectRatio: false,
+        plugins: {
+          tooltip: {
+            callbacks: {
+              title: (context) => {
+                return context[0].label;
+              },
+              label: ({ raw }) => {
+                return " Qtd: " + raw;
+              },
+            },
+          },
+        },
         scales: {
           y: {
             beginAtZero: true,
+            ticks: {
+              callback: function () {
+                return "";
+              },
+            },
           },
         },
       }}

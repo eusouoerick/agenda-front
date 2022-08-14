@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useMutation } from "@apollo/client";
-import removeAllRefs from "../../../../graphql/removeAllRefs";
+// import removeAllRefs from "../../../../graphql/removeAllRefs";
 import useOnScreen from "../../../../hooks/useOnScreen";
 import {
   DELETE_SCHEDULE,
@@ -30,11 +30,11 @@ const useHook = ({ item, status, setStatus, element, handlePage }) => {
         variables: { id },
         update(cache) {
           cache.evict({ id: `Schedules:${id}` });
-          removeAllRefs(cache, item);
+          // removeAllRefs(cache, item);
         },
       });
     },
-    [deleteSchedule, item]
+    [deleteSchedule]
   );
 
   // Atualiza o status do agendamento

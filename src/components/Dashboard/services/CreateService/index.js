@@ -22,6 +22,16 @@ const CreateService = () => {
         </button>
       </div>
 
+      {/* btn  responsive */}
+      <div className='respon'>
+        <button className='create-service btn' onClick={handleModalOpen}>
+          <span style={{ fontSize: 16 }}>Adicionar novo serviço</span>
+          <span className='material-icons' style={{ fontSize: 20 }}>
+            add
+          </span>
+        </button>
+      </div>
+
       <style jsx>{`
         .create-service {
           position: relative;
@@ -30,11 +40,21 @@ const CreateService = () => {
           background: #fff;
           border: var(--gray-border);
           border-radius: 4px;
-          grid-column: 1;
-          grid-row: 1;
           cursor: pointer;
           border-color: var(--color-primary-light);
         }
+        .respon {
+          display: none;
+        }
+        .create-service.btn {
+          width: 100%;
+          height: 40px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+        }
+
         .create-service button {
           display: flex;
           flex-direction: column;
@@ -47,6 +67,15 @@ const CreateService = () => {
         .create-service button:hover,
         .create-service button:focus {
           color: var(--color-primary);
+        }
+
+        @media (max-width: 499px) {
+          .create-service {
+            display: none;
+          }
+          .respon {
+            display: block;
+          }
         }
       `}</style>
     </>

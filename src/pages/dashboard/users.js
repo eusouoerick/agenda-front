@@ -27,6 +27,12 @@ const Users = () => {
           grid-template-columns: repeat(auto-fit, minmax(400px, 400px));
           gap: 20px;
         }
+        @media (max-width: 410px) {
+          .container {
+            width: 100vw;
+            grid-template-columns: repeat(auto-fit, minmax(100vw, 100vw));
+          }
+        }
       `}</style>
     </>
   );

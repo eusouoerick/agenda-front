@@ -1,21 +1,18 @@
-import { useSelector } from "react-redux";
 import TableItem from "./TableItem";
 
 const Table = ({ data, handlePage }) => {
-  const { status } = useSelector((state) => state.tableFilter);
-
   return (
     <>
       <table style={{ borderBottom: data?.schedules.length ? "none" : null }}>
         <thead>
           <tr>
-            <th>Author</th>
-            <th>Contact</th>
+            <th className="none-2">Autor</th>
+            <th className='none'>Contato</th>
             <th>Serviço</th>
             <th>Status</th>
-            <th>Date</th>
-            <th>Price</th>
-            <th></th>
+            <th>Data</th>
+            <th className='none'>Preço</th>
+            <th className='none'></th>
           </tr>
         </thead>
         <tbody>
@@ -52,6 +49,22 @@ const Table = ({ data, handlePage }) => {
           display: table-cell;
           text-align: center;
           padding: 15px 10px;
+        }
+
+        @media (max-width: 1050px) {
+          table {
+            width: 100%;
+          }
+        }
+        @media (max-width: 768px) {
+          .none {
+            display: none;
+          }
+        }
+        @media (max-width: 425px) {
+          .none-2 {
+            display: none;
+          }
         }
       `}</style>
     </>

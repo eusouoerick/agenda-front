@@ -54,7 +54,9 @@ const HeaderTable = ({ handlePage, refetchQuerie }) => {
           ) : (
             <>
               {date || service !== "all" || status.length !== 3 ? (
-                <button onClick={resetFilter}>Remover filtros</button>
+                <button className='none' onClick={resetFilter}>
+                  Remover filtros
+                </button>
               ) : null}
               {!noItems && (
                 <button onClick={() => setFilterOpen(() => true)}>
@@ -81,7 +83,7 @@ const HeaderTable = ({ handlePage, refetchQuerie }) => {
           gap: 10px;
         }
         .table-header button {
-          heigh: 36px;
+          height: 36px;
           min-height: 36px;
           display: flex;
           align-items: center;
@@ -109,6 +111,15 @@ const HeaderTable = ({ handlePage, refetchQuerie }) => {
           }
           100% {
             transform: rotate(360deg);
+          }
+        }
+
+        @media (max-width: 380px) {
+          .table-header {
+            padding: 0 5px;
+          }
+          .table-header button.none {
+            display: none;
           }
         }
       `}</style>

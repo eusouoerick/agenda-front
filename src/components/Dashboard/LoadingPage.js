@@ -15,6 +15,12 @@ const LoadingPage = () => {
           left: 50%;
           transform: translate(-50%, -50%);
         }
+
+        @media (max-width: 750px) {
+          h2 {
+            display: none;
+          }
+        }
       `}</style>
     </>
   );

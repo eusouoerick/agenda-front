@@ -185,6 +185,15 @@ const EditUserModal = ({ setModal }) => {
           width: 70px;
           padding: 5px;
         }
+
+        @media (max-width: 400px) {
+          form {
+            width: 100vw;
+            border-radius: 0;
+            padding: 10px;
+          }
+        }
+        
       `}</style>
     </>
   );

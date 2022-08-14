@@ -37,6 +37,12 @@ const Dashboard = ({ children }) => {
             justify-content: center;
             margin: 60px;
           }
+
+          @media (max-width: 1024px) {
+            main {
+              margin: 60px 0;
+            }
+          }
         `}</style>
       </>
     );
