@@ -54,9 +54,14 @@ const HeaderTable = ({ handlePage, refetchQuerie }) => {
           ) : (
             <>
               {date || service !== "all" || status.length !== 3 ? (
-                <button className='none' onClick={resetFilter}>
-                  Remover filtros
-                </button>
+                <>
+                  <button className='none' onClick={resetFilter}>
+                    Remover filtros
+                  </button>
+                  <button className='block' onClick={resetFilter}>
+                    <span className='material-icons'>close</span>
+                  </button>
+                </>
               ) : null}
               {!noItems && (
                 <button onClick={() => setFilterOpen(() => true)}>
@@ -105,6 +110,10 @@ const HeaderTable = ({ handlePage, refetchQuerie }) => {
           color: var(--color-primary);
           animation: spin 0.7s linear infinite;
         }
+        .table-header button.block {
+          display: none;
+        }
+
         @keyframes spin {
           0% {
             transform: rotate(0deg);
@@ -117,9 +126,13 @@ const HeaderTable = ({ handlePage, refetchQuerie }) => {
         @media (max-width: 380px) {
           .table-header {
             padding: 0 5px;
+            width: 100vw;
           }
           .table-header button.none {
             display: none;
+          }
+          .table-header button.block {
+            display: block;
           }
         }
       `}</style>
