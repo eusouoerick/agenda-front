@@ -125,7 +125,7 @@ const HeaderTable = ({ handlePage, refetchQuerie }) => {
 
         @media (max-width: 380px) {
           .table-header {
-            padding: 0 5px;
+            padding: 0 10px;
             width: 100vw;
           }
           .table-header button.none {
