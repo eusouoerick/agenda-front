@@ -68,6 +68,26 @@ const NoItems = () => {
           background: var(--color-primary);
           color: #fff;
         }
+
+        @media (max-width: 1010px) {
+          .no-items {
+            width: 700px;
+          }
+        }
+        @media (max-width: 768px) {
+          .no-items {
+            width: 500px;
+          }
+        }
+        @media (max-width: 510px) {
+          .no-items {
+            padding: 20px 10px;
+            width: 100vw;
+          }
+          .align h3 {
+            font-size: 16px;
+          }
+        }
       `}</style>
     </>
   );

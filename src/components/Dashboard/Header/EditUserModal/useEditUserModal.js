@@ -35,7 +35,7 @@ const useEditUserModal = ({ inputs, setModal }) => {
           toast("Usuário atualizado com sucesso!", {
             type: "success",
             position: "top-right",
-            autoClose: 3000,
+            autoClose: 2000,
             theme: "dark",
             closeOnClick: true,
             pauseOnHover: false,
@@ -46,7 +46,7 @@ const useEditUserModal = ({ inputs, setModal }) => {
           toast(message, {
             type: "error",
             position: "top-right",
-            autoClose: 3000,
+            autoClose: 2000,
             theme: "dark",
             closeOnClick: true,
             pauseOnHover: false,

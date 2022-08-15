@@ -30,7 +30,7 @@ const CreateSchedule = ({ closeCreator, selectedService }) => {
                   <label htmlFor='date'>Data</label>
                   <input
                     ref={date}
-                    className='input'
+                    className='input date'
                     id='date'
                     name='date'
                     type='date'
@@ -137,9 +137,13 @@ const CreateSchedule = ({ closeCreator, selectedService }) => {
           display: flex;
           justify-content: space-between;
         }
+        .date {
+          min-width: 143px;
+        }
         .services-area {
           width: 270px;
         }
+
         #services {
           font-size: 14px;
         }

@@ -125,7 +125,6 @@ const MenuModal = ({ toogleMenuModal }) => {
           position: absolute;
           top: 0;
           right: 10px;
-          color: #fff;
           height: 26px;
           width: 35px;
           border-radius: 999px;
@@ -148,9 +147,7 @@ const MenuModal = ({ toogleMenuModal }) => {
           color: #fff;
           text-decoration: none;
           padding: 0 40px;
-        }
-        .nav-container ul {
-          width: 100%;
+          font-size: 18px;
         }
         .nav-item {
           width: 100%;

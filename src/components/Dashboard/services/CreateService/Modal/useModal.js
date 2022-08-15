@@ -33,7 +33,7 @@ const useModal = ({ form, closeModal }) => {
               toast("Serviço criado com sucesso!", {
                 type: "success",
                 position: "top-right",
-                autoClose: 3000,
+                autoClose: 2000,
                 theme: "dark",
                 closeOnClick: true,
                 pauseOnHover: false,
