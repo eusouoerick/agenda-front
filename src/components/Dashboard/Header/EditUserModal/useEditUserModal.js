@@ -4,7 +4,7 @@ import { useMutation } from "@apollo/client";
 import { UPDATE_USER } from "../../../../graphql/schemas/users";
 import { toast } from "react-toastify";
 
-const useHook = ({ inputs, setModal }) => {
+const useEditUserModal = ({ inputs, setModal }) => {
   const dispatch = useDispatch();
   const [updateUser, { loading }] = useMutation(
     UPDATE_USER("name", "email", "phone", "contact"),
@@ -61,4 +61,4 @@ const useHook = ({ inputs, setModal }) => {
   return { handleSubmit, loading };
 };
 
-export default useHook;
+export default useEditUserModal;

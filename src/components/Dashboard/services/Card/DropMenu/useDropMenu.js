@@ -2,7 +2,7 @@ import {  useCallback } from "react";
 import { useMutation } from "@apollo/client";
 import { DELETE_SERVICE, GET_SERVICES } from "../../../../../graphql/schemas/services";
 
-const useHook = ({ id }) => {
+const useDropMenu = ({ id }) => {
   const [deleteService] = useMutation(DELETE_SERVICE());
 
   const handleDelete = useCallback(() => {
@@ -21,4 +21,4 @@ const useHook = ({ id }) => {
   return { handleDelete };
 };
 
-export default useHook;
+export default useDropMenu;

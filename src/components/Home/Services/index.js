@@ -37,11 +37,13 @@ const Services = ({ servicesList }) => {
           >
             <span className='material-icons'>chevron_left</span>
           </button>
-          <div className='items' ref={carousel}>
+          <ul className='items' ref={carousel}>
             {servicesList.map((item) => (
-              <CardService item={item} key={item._id} />
+              <li key={item._id}>
+                <CardService item={item} />
+              </li>
             ))}
-          </div>
+          </ul>
           <button
             className='carousel-btn'
             style={{ display: showBtn }}
@@ -73,12 +75,18 @@ const Services = ({ servicesList }) => {
           gap: 10px;
         }
         .items {
+          padding: 0;
           display: flex;
           max-width: 100%;
           overflow-x: hidden;
           scroll-behavior: smooth;
           align-items: center;
           gap: 10px;
+        }
+        .items li {
+          list-style: none;
+          margin: 0;
+          padding: 0;
         }
         .carousel-btn {
           height: 220px;

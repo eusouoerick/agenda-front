@@ -1,5 +1,4 @@
 import Image from "next/image";
-import HOME_ITT from "../../../assets/img/home_itt.jpg";
 
 const FirstContent = () => {
   return (
@@ -19,7 +18,7 @@ const FirstContent = () => {
         </article>
         <div className='img'>
           <Image
-            src={HOME_ITT}
+            src='/images/home.jpg'
             alt='foto ilustrativa'
             width={470}
             height={320}

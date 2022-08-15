@@ -1,3 +1,5 @@
+import Head from "next/head";
+
 import { ApolloProvider } from "@apollo/client";
 import client from "../graphql/ApolloConfig";
 import { Provider } from "react-redux";
@@ -14,6 +16,10 @@ function MyApp({ Component, pageProps }) {
   return (
     <ApolloProvider client={client}>
       <Provider store={store}>
+        <Head>
+          <title>Home</title>
+        </Head>
+
         <ToastContainer />
         <div className={classNames({ "dashboard-container": !Component.getLayout })}>
           {Component.getLayout ? (

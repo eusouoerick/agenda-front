@@ -12,7 +12,7 @@ const SCHEMA = [
   "date",
   "status",
 ];
-const useHook = ({ closeCreator, inputs: { date, time, service } }) => {
+const useCreateSchedule = ({ closeCreator, inputs: { date, time, service } }) => {
   const { data, loading: servicesLoading } = useQuery(
     GET_SERVICES("_id", "name", "price")
   );
@@ -59,4 +59,4 @@ const useHook = ({ closeCreator, inputs: { date, time, service } }) => {
   return { handleSubmit, data, servicesLoading, loadingCreator, createError };
 };
 
-export default useHook;
+export default useCreateSchedule;

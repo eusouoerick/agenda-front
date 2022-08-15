@@ -1,6 +1,7 @@
 import { gql } from "@apollo/client";
 import { print } from "graphql";
 
+import HeaderHtml from "../components/Home/HeaderHtml";
 import Header from "../components/Home/Header";
 import FirstContent from "../components/Home/FirstContent";
 import Services from "../components/Home/Services";
@@ -8,17 +9,22 @@ import About from "../components/Home/About";
 
 export default function Home({ services }) {
   return (
-    <div className='container'>
-      <Header />
-      <main>
-        <FirstContent />
-        <Services servicesList={services} />
-        <About />
-      </main>
-      <footer>
-        <span>by Erick Gabriel</span>
-        <span>limaerick.03@gmail.com</span>
-      </footer>
+    <>
+      <HeaderHtml />
+      <div className='container'>
+        <Header />
+        <main>
+          <FirstContent />
+          <Services servicesList={services} />
+          <About />
+        </main>
+        <footer>
+          <span>by Erick Gabriel</span>
+          <a className='link' href='mailto:limaerick.03@gmail.com'>
+            limaerick.03@gmail.com
+          </a>
+        </footer>
+      </div>
 
       <style jsx>{`
         main {
@@ -49,8 +55,14 @@ export default function Home({ services }) {
           gap: 5px;
           font-weight: 300;
         }
+        .link {
+          color: #e9e9e9;
+        }
+        .link:hover {
+          color: var(--color-primary);
+        }
       `}</style>
-    </div>
+    </>
   );
 }
 

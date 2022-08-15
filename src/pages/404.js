@@ -1,6 +1,5 @@
 import Image from "next//image";
 import { useRouter } from "next/dist/client/router";
-import SVG_404 from "../assets/img/404.png";
 
 const NotFound = () => {
   const router = useRouter();
@@ -23,7 +22,7 @@ const NotFound = () => {
           </button>
         </div>
         <div className='img'>
-          <Image width={300} height={300} src={SVG_404} alt='error' />
+          <Image width={300} height={300} src='/images/404.png' alt='error' />
         </div>
       </div>
 

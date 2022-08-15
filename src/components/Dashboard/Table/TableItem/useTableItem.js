@@ -12,7 +12,7 @@ import {
 const UPDATE_SCHEMA = UPDATE_SCHEDULE("_id", "status");
 const fetchPolicy = { fetchPolicy: "network-only" };
 
-const useHook = ({ item, status, setStatus, element, handlePage }) => {
+const useTableItem = ({ item, status, setStatus, element, handlePage }) => {
   const { adm } = useSelector((state) => state.user);
   const onScreen = useOnScreen(element, "-100px");
   const [updateSchedule, { loading }] = useMutation(UPDATE_SCHEMA, fetchPolicy);
@@ -56,4 +56,4 @@ const useHook = ({ item, status, setStatus, element, handlePage }) => {
   return { handleUpdate, handleDelete, loading };
 };
 
-export default useHook;
+export default useTableItem;

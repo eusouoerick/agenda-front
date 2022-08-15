@@ -1,0 +1,19 @@
+{
+  "name": "Sistema de Agendamento de Serviços",
+  "short_name": "Site feito para facilitar a comunicação do cliente com a empresa, deixando mais fácil a agendamento de serviços.",
+  "theme_color": "hsl(337, 70%, 50%)",
+  "background_color": "#fff",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/images/icon/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/icon/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

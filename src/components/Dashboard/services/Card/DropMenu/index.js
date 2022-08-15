@@ -1,9 +1,9 @@
 import { useRef, useEffect } from "react";
-import useHook from "./useHook";
+import useDropMenu from "./useDropMenu";
 
 const DropMenu = ({ setDropOpen, id }) => {
   const dropRef = useRef();
-  const { handleDelete } = useHook({ id });
+  const { handleDelete } = useDropMenu({ id });
 
   useEffect(() => {
     const closeDrop = (e) => {

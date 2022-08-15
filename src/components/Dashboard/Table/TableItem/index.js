@@ -1,6 +1,6 @@
 import { memo, useState, useRef } from "react";
 import { format } from "date-fns";
-import useHook from "./useHook";
+import useTableItem from "./useTableItem";
 
 import TableItemModal from "./TableItemModal";
 import BtnStatus from "./BtnStatus";
@@ -9,7 +9,7 @@ const TableItem = ({ item, handlePage }) => {
   const ref = useRef();
   const [status, setStatus] = useState(item.status);
   const [modalOpen, setModalOpen] = useState(false);
-  const { handleUpdate, handleDelete, loading } = useHook({
+  const { handleUpdate, handleDelete, loading } = useTableItem({
     item,
     status,
     setStatus,

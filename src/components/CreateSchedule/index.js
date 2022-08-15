@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { format } from "date-fns";
-import useHook from "./useHook";
+import useCreateSchedule from "./useCreateSchedule";
 
 import WindowBlur from "../windowBlur";
 import ThreeDotsLoading from "../ThreeDotsLoading";
@@ -10,12 +10,11 @@ const CreateSchedule = ({ closeCreator, selectedService }) => {
   const time = useRef();
   const service = useRef();
 
-  const { data, servicesLoading, loadingCreator, handleSubmit, createError } = useHook(
-    {
+  const { data, servicesLoading, loadingCreator, handleSubmit, createError } =
+    useCreateSchedule({
       closeCreator,
       inputs: { date, time, service },
-    }
-  );
+    });
 
   return (
     <WindowBlur setChildrenState={closeCreator}>
@@ -150,7 +149,7 @@ const CreateSchedule = ({ closeCreator, selectedService }) => {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 10px;
+          gap: 20px;
         }
         form button[type="submit"] {
           width: 100%;

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useHook from "./useHook";
+import useEditUserModal from "./useEditUserModal";
 import classNames from "classnames";
 
 import WindowBlur from "../../../windowBlur";
@@ -12,17 +12,18 @@ const EditUserModal = ({ setModal }) => {
     phone: "",
     contact: "",
   });
-  const { handleSubmit, loading } = useHook({ inputs, setModal });
+  const { handleSubmit, loading } = useEditUserModal({ inputs, setModal });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setInputs((state) => ({ ...state, [name]: value }));
   };
   const changeContact = (name) => {
-    setInputs((state) => ({ ...state, contact: name }));
+    setInputs((state) => ({ ...state, contact: name === state.contact ? "" : name }));
   };
 
-  const btnDisabled = !inputs.name && !inputs.email && !inputs.phone && !inputs.contact;
+  const btnDisabled =
+    !inputs.name && !inputs.email && !inputs.phone && !inputs.contact;
 
   return (
     <>
@@ -152,10 +153,6 @@ const EditUserModal = ({ setModal }) => {
           padding: 7px;
           font-weight: bold;
         }
-        .btn-contact:hover {
-          color: var(--color-primary);
-          border-color: var(--color-primary);
-        }
         .selected {
           color: var(--color-primary);
           border-color: var(--color-primary);
@@ -193,7 +190,6 @@ const EditUserModal = ({ setModal }) => {
             padding: 10px;
           }
         }
-        
       `}</style>
     </>
   );
