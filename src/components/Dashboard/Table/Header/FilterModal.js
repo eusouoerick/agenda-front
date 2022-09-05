@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setService, setDate } from "../../../../store/tableFilterSlice";
-import { useQuery, gql } from "@apollo/client";
-import BtnStatus from "./BtnStatus";
+import { useCallback, useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setService, setDate } from '../../../../store/tableFilterSlice';
+import { useQuery, gql } from '@apollo/client';
+import BtnStatus from './BtnStatus';
 
 const SCHEMA = gql`
   query {
@@ -42,9 +42,9 @@ const FilterModal = ({ closeModal, handlePage }) => {
         closeModal();
       }
     };
-    document.addEventListener("mousedown", handleCloseModal);
+    document.addEventListener('mousedown', handleCloseModal);
     return () => {
-      document.removeEventListener("mousedown", handleCloseModal);
+      document.removeEventListener('mousedown', handleCloseModal);
     };
   }, [closeModal]);
 
@@ -85,12 +85,12 @@ const FilterModal = ({ closeModal, handlePage }) => {
               </select>
             )}
           </div>
-          <div className='field' style={{ flexDirection: "column" }}>
+          <div className='field' style={{ flexDirection: 'column' }}>
             <span>Status:</span>
             <div className='btns-status'>
-              <BtnStatus name={"completed"} />
-              <BtnStatus name={"pending"} />
-              <BtnStatus name={"cancelled"} />
+              <BtnStatus name={'completed'} />
+              <BtnStatus name={'pending'} />
+              <BtnStatus name={'cancelled'} />
             </div>
           </div>
         </form>
@@ -98,15 +98,14 @@ const FilterModal = ({ closeModal, handlePage }) => {
 
       <style jsx>{`
         .filter-modal {
-          opacity: 1;
           display: flex;
           flex-direction: column;
           position: absolute;
           top: 0;
           right: 5px;
-          height: 24px;
-          width: 24px;
-          animation: slide 0.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+          width: 260px;
+          height: 290px;
+          animation: slide 0.15s cubic-bezier(0.4, 0, 0.2, 1) forwards;
           overflow: hidden;
           background: #fff;
           border: var(--gray-border);
@@ -116,12 +115,6 @@ const FilterModal = ({ closeModal, handlePage }) => {
           color: #585858;
           z-index: 1;
           box-shadow: 0px 4px 10px hsl(0deg 0% 60%);
-        }
-        @keyframes slide {
-          100% {
-            width: 260px;
-            height: 290px;
-          }
         }
         .header {
           display: flex;
@@ -145,7 +138,7 @@ const FilterModal = ({ closeModal, handlePage }) => {
           padding: 3px 10px;
           width: 100%;
         }
-        .field input[type="date"] {
+        .field input[type='date'] {
           width: 150px;
           padding: 2px 5px;
           position: absolute;
@@ -158,10 +151,10 @@ const FilterModal = ({ closeModal, handlePage }) => {
           justify-content: space-around;
           gap: 10px 0;
         }
-        .field input[type="checkbox"] {
+        .field input[type='checkbox'] {
           display: none;
         }
-        .field input[type="checkbox"]:checked + label {
+        .field input[type='checkbox']:checked + label {
           color: var(--color-completed);
         }
       `}</style>
