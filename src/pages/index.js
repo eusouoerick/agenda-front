@@ -20,9 +20,6 @@ export default function Home({ services }) {
         </main>
         <footer>
           <span>by Erick Gabriel</span>
-          <a className='link' href='mailto:limaerick.03@gmail.com'>
-            limaerick.03@gmail.com
-          </a>
         </footer>
       </div>
 
